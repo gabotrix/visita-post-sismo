@@ -1312,6 +1312,7 @@ window.ALMACEN = (function () {
         D.origen_prellenado = 'sala_datos';
         recalcula(); guardaVisita(true);
         try { history.replaceState(null, '', location.pathname); } catch (e) {}
+        iPaso = 1;                      // el código ya viene del mapa: se arranca en Localización
         vista = 'paso'; pintaPaso();
       });
     });
