@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex">
+<title>Evaluación post-sismo</title>
+<style>
+:root{
+  --paper:#F1F4F7; --card:#FFFFFF; --ink:#12161A; --ink-2:#4B545C; --ink-3:#79838C;
+  --rule:#D8DEE4; --azul:#0B3C5D; --azul-bg:#E4EDF4;
+}
+@media (prefers-color-scheme:dark){:root{
+  --paper:#0E1114; --card:#171C21; --ink:#E8EDF1; --ink-2:#A6B0B9; --ink-3:#78838C;
+  --rule:#2A3138; --azul:#5FA8D8; --azul-bg:#152530;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);line-height:1.55;font-size:16px;
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  display:grid;place-items:center;min-height:100vh;padding:28px 20px}
+main{width:100%;max-width:560px}
+.eyebrow{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+h1{font-size:clamp(27px,6vw,36px);line-height:1.1;letter-spacing:-.025em;margin:10px 0 12px}
+.lede{color:var(--ink-2);margin:0 0 26px;font-size:15.5px}
+a.tarjeta{display:block;text-decoration:none;color:inherit;background:var(--card);
+  border:1px solid var(--rule);border-radius:12px;padding:18px 20px;margin-bottom:12px}
+a.tarjeta:hover{border-color:var(--azul);background:var(--azul-bg)}
+a.tarjeta b{display:block;font-size:18px;margin-bottom:3px}
+a.tarjeta span{font-size:14px;color:var(--ink-2)}
+.pie{margin-top:26px;font-size:13px;color:var(--ink-3);line-height:1.6}
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">Evaluación rápida por inspección visual</div>
+  <h1>Evaluación post-sismo</h1>
+  <p class="lede">Levantamiento de daños en edificaciones para Caldas y Risaralda.
+     Dos herramientas: una para campo y otra para coordinación.</p>
+
+  <a class="tarjeta" href="visita.html">
+    <b>Visita post-sismo &rarr;</b>
+    <span>Para los evaluadores. Funciona sin señal: guarda las visitas y las fotos en el
+    teléfono y las envía cuando hay red. Ábrala una vez con conexión y añádala a la
+    pantalla de inicio.</span>
+  </a>
+
+  <a class="tarjeta" href="panel.html">
+    <b>Panel de consulta &rarr;</b>
+    <span>Para la alcaldía. Mapa, cifras por municipio, buscador y descarga en Excel.
+    Requiere clave y conexión.</span>
+  </a>
+
+  <p class="pie">Cada herramienta pide su propia clave, que entrega el coordinador.
+     Sin clave se puede abrir el formulario pero no enviar ni consultar nada.</p>
+</main>
+</body>
+</html>

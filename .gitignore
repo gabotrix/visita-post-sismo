@@ -1,0 +1,5 @@
+# Credenciales: se entregan a mano, nunca al repositorio.
+CLAVE-*.txt
+*.clave
+_*.json
+_*.txt

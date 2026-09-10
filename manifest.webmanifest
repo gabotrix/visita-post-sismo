@@ -1,0 +1,20 @@
+{
+  "name": "Visita post-sismo",
+  "short_name": "Post-sismo",
+  "description": "Evaluacion rapida de danos por inspeccion visual. Funciona sin conexion.",
+  "start_url": "./visita.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "lang": "es-CO",
+  "background_color": "#F4F6F8",
+  "theme_color": "#0B3C5D",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9Ijk2IiBmaWxsPSIjMEIzQzVEIi8+PHBhdGggZD0iTTI1NiAxMDQgOTYgMjMydjE3NmgxMjhWMjk2aDY0djExMmgxMjhWMjMyeiIgZmlsbD0iI0Y0RjZGOCIvPjxwYXRoIGQ9Ik0yNTYgMTA0djg4bC0zNCA0NCA0NiA0MC0zMCAxMzIiIHN0cm9rZT0iI0MwMjcyRCIgc3Ryb2tlLXdpZHRoPSIyMiIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

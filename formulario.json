@@ -1,0 +1,3581 @@
+{
+ "survey": [
+  {
+   "type": "start",
+   "name": "inicio",
+   "label": "Inicio del diligenciamiento"
+  },
+  {
+   "type": "end",
+   "name": "fin",
+   "label": "Fin del diligenciamiento"
+  },
+  {
+   "type": "today",
+   "name": "fecha_hoy",
+   "label": "Fecha del dispositivo"
+  },
+  {
+   "type": "username",
+   "name": "usuario",
+   "label": "Usuario de ArcGIS"
+  },
+  {
+   "type": "deviceid",
+   "name": "dispositivo",
+   "label": "ID del dispositivo"
+  },
+  {
+   "type": "begin group",
+   "name": "s1_evaluacion",
+   "label": "<div style=\"background-color:#3F3C3B; color:#FFFFFF; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">1. Información del evaluador</h3></div>",
+   "appearance": "field-list",
+   "body::esri:style": "backgroundColor=\"#ECEBEC\" borderColor=\"#3F3C3B\""
+  },
+  {
+   "type": "dateTime",
+   "name": "fecha_hora_inspeccion",
+   "label": "Fecha y hora de la visita",
+   "hint": "Se prellena con la fecha y hora del dispositivo; puede corregirla.",
+   "required": "yes",
+   "default": "now()",
+   "constraint": ". <= now()",
+   "constraint_message": "La fecha y hora no pueden ser posteriores al momento actual"
+  },
+  {
+   "type": "barcode",
+   "name": "unit_Code",
+   "label": "Escanear código QR",
+   "appearance": "minimal",
+   "required": "yes"
+  },
+  {
+   "type": "select_one entidad",
+   "name": "entidad",
+   "label": "Entidad",
+   "appearance": "minimal",
+   "required": "yes",
+   "bind::esri:fieldLength": 50
+  },
+  {
+   "type": "text",
+   "name": "entidad_otra",
+   "label": "¿Cuál entidad?",
+   "appearance": "predictivetext",
+   "required": "yes",
+   "relevant": "selected(${entidad},'otra')",
+   "bind::esri:fieldLength": 100
+  },
+  {
+   "type": "text",
+   "name": "evaluador_nombre",
+   "label": "Nombre completo del evaluador",
+   "appearance": "predictivetext",
+   "required": "yes",
+   "bind::esri:fieldLength": 100
+  },
+  {
+   "type": "select_one tipo_documento",
+   "name": "evaluador_tipo_doc",
+   "label": "Tipo de documento",
+   "appearance": "horizontal",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "text",
+   "name": "evaluador_num_doc",
+   "label": "Número de documento",
+   "appearance": "numbers",
+   "required": "yes",
+   "bind::esri:fieldLength": 30
+  },
+  {
+   "type": "select_one profesion",
+   "name": "evaluador_profesion",
+   "label": "Profesión",
+   "appearance": "minimal",
+   "required": "yes",
+   "bind::esri:fieldLength": 50
+  },
+  {
+   "type": "text",
+   "name": "evaluador_profesion_otra",
+   "label": "¿Cuál profesión?",
+   "appearance": "predictivetext",
+   "required": "yes",
+   "relevant": "selected(${evaluador_profesion},'otra')",
+   "bind::esri:fieldLength": 100
+  },
+  {
+   "type": "text",
+   "name": "evaluador_matricula",
+   "label": "Matrícula profesional",
+   "appearance": "predictivetext",
+   "bind::esri:fieldLength": 50
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "s2_localizacion",
+   "label": "<div style=\"background-color:#3F3C3B; color:#FFFFFF; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">2. Localización</h3></div>",
+   "appearance": "field-list",
+   "body::esri:style": "backgroundColor=\"#ECEBEC\" borderColor=\"#3F3C3B\""
+  },
+  {
+   "type": "select_one departamento",
+   "name": "departamento",
+   "label": "Departamento",
+   "appearance": "minimal",
+   "required": "yes",
+   "bind::esri:fieldLength": 30
+  },
+  {
+   "type": "select_one municipio",
+   "name": "municipio",
+   "label": "Municipio",
+   "appearance": "minimal",
+   "required": "yes",
+   "choice_filter": "departamento=${departamento}",
+   "bind::esri:fieldLength": 100
+  },
+  {
+   "type": "text",
+   "name": "barrio_vereda",
+   "label": "Barrio / Vereda",
+   "appearance": "predictivetext",
+   "required": "yes",
+   "bind::esri:fieldLength": 100
+  },
+  {
+   "type": "select_one zona",
+   "name": "zona",
+   "label": "Zona",
+   "appearance": "horizontal",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "note",
+   "name": "nota_construccion",
+   "label": "<b><font color=\"#005187\">Identificación del construccion en la capa base</font></b><br><font color=\"#3F3C3B\">Escoja la manzana y luego el construccion. Si el construccion no está dibujado en la capa base, márquelo y asígnele un identificador temporal.</font>",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "text",
+   "name": "manzana",
+   "label": "Manzana",
+   "appearance": "predictivetext",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "select_one si_no",
+   "name": "construccion_existe",
+   "label": "¿La construcción existe en la capa base?",
+   "appearance": "horizontal-compact",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "text",
+   "name": "construccion",
+   "label": "Construcción",
+   "appearance": "predictivetext",
+   "relevant": "${construccion_existe}='si'",
+   "choice_filter": "manzana=${manzana}",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "text",
+   "name": "construccion_nueva",
+   "label": "Identificador temporal de la construccion",
+   "hint": "Asigne un consecutivo, por ejemplo N01, N02.",
+   "appearance": "predictivetext",
+   "relevant": "${construccion_existe}='no'",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "calculate",
+   "name": "cod_registro",
+   "calculation": "if(${construccion_existe}='si', concat(${manzana}, '-', ${construccion}), concat(${manzana}, '-N-', ${construccion_nueva}))",
+   "repeat_count": "esriFieldTypeString",
+   "bind::esri:fieldType": "esriFieldTypeString",
+   "bind::esri:fieldLength": 50
+  },
+  {
+   "type": "calculate",
+   "name": "area_huella_mapa",
+   "calculation": "pulldata('edificaciones', 'area_huella', 'uid', ${cod_registro})",
+   "repeat_count": "esriFieldTypeDouble",
+   "bind::esri:fieldType": "esriFieldTypeDouble"
+  },
+  {
+   "type": "note",
+   "name": "nota_cod",
+   "label": "<b>Código de registro:</b> <font color=\"#0D47A1\" size=\"4\">${cod_registro}</font>",
+   "relevant": "string-length(${cod_registro})>1",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "note",
+   "name": "nota_area_mapa",
+   "label": "<font color=\"#3F3C3B\">Área de huella según la capa base: ${area_huella_mapa} m²</font>",
+   "relevant": "${construccion_existe}='si'",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "geopoint",
+   "name": "ubicacion",
+   "label": "Ubicación de la edificación",
+   "hint": "Espere a que la precisión llegue a 20 m o mejor. Verifique en la imagen que el punto quede sobre la edificación evaluada.",
+   "required": "yes",
+   "body::esri:style": "map=\"Imagery Hybrid\""
+  },
+  {
+   "type": "calculate",
+   "name": "longitud",
+   "calculation": "pulldata(\"@geopoint\", ${ubicacion}, \"x\")",
+   "repeat_count": "esriFieldTypeDouble",
+   "bind::esri:fieldType": "esriFieldTypeDouble"
+  },
+  {
+   "type": "calculate",
+   "name": "latitud",
+   "calculation": "pulldata(\"@geopoint\", ${ubicacion}, \"y\")",
+   "repeat_count": "esriFieldTypeDouble",
+   "bind::esri:fieldType": "esriFieldTypeDouble"
+  },
+  {
+   "type": "calculate",
+   "name": "precision_gps",
+   "calculation": "pulldata(\"@geopoint\", ${ubicacion}, \"horizontalAccuracy\")",
+   "repeat_count": "esriFieldTypeDouble",
+   "bind::esri:fieldType": "esriFieldTypeDouble"
+  },
+  {
+   "type": "note",
+   "name": "nota_precision",
+   "label": "<font color=\"#C62828\"><b>La precisión del GPS es de ${precision_gps} m. Espere a mejorar la señal antes de continuar.</b></font>",
+   "relevant": "${precision_gps} > 20",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "select_one si_no",
+   "name": "huella_coincide",
+   "label": "¿La huella de la capa base corresponde a la construcción?",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "relevant": "${construccion_existe}='si'",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "note",
+   "name": "nota_huella",
+   "label": "<b><font color=\"#005187\">Huella de la construcción</font></b><br><font color=\"#3F3C3B\">Si la construcción no está en la capa base, o si la huella dibujada no corresponde, dibújela sobre la imagen.</font>",
+   "relevant": "${construccion_existe}='no' or ${huella_coincide}='no'",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "begin repeat",
+   "name": "huella_construccion",
+   "label": "Huella de la construcción",
+   "relevant": "${construccion_existe}='no' or ${huella_coincide}='no'",
+   "repeat_count": "1"
+  },
+  {
+   "type": "geoshape",
+   "name": "huella_geom",
+   "label": "Dibuje la huella sobre la imagen",
+   "hint": "Recorra el perímetro de la construcción tocando el mapa.",
+   "required": "yes",
+   "body::esri:style": "map=\"Imagery Hybrid\""
+  },
+  {
+   "type": "calculate",
+   "name": "huella_area",
+   "calculation": "round(area(${huella_geom}),0)",
+   "bind::esri:fieldType": "esriFieldTypeDouble"
+  },
+  {
+   "type": "note",
+   "name": "nota_huella_area",
+   "label": "<b>Área dibujada:</b> <font color=\"#0D47A1\" size=\"4\">${huella_area} m²</font>",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "end repeat"
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "s3_edificacion",
+   "label": "<div style=\"background-color:#3F3C3B; color:#FFFFFF; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">3. Identificación de la construcción</h3></div>",
+   "appearance": "field-list",
+   "body::esri:style": "backgroundColor=\"#ECEBEC\" borderColor=\"#3F3C3B\""
+  },
+  {
+   "type": "select_one estado_colapso",
+   "name": "estado_colapso",
+   "label": "Estado de colapso de la edificación",
+   "hint": "Obsérvelo desde afuera antes de continuar: define qué preguntas siguen.",
+   "appearance": "minimal",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "select_one si_no",
+   "name": "inclinacion",
+   "label": "¿La edificación presenta inclinación evidente?",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "relevant": "${estado_colapso}!='total'",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "text",
+   "name": "nombre_edificacion",
+   "label": "Nombre de la edificación",
+   "appearance": "predictivetext",
+   "bind::esri:fieldLength": 150
+  },
+  {
+   "type": "text",
+   "name": "direccion",
+   "label": "Dirección",
+   "appearance": "predictivetext",
+   "required": "yes",
+   "bind::esri:fieldLength": 150
+  },
+  {
+   "type": "select_one tipo_edificacion",
+   "name": "tipo_edificacion",
+   "label": "Tipo de edificación",
+   "appearance": "horizontal",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "select_one uso",
+   "name": "uso",
+   "label": "Uso principal",
+   "appearance": "minimal",
+   "required": "yes",
+   "bind::esri:fieldLength": 30
+  },
+  {
+   "type": "text",
+   "name": "uso_otro",
+   "label": "¿Cuál uso?",
+   "appearance": "predictivetext",
+   "required": "yes",
+   "relevant": "selected(${uso},'otro')",
+   "bind::esri:fieldLength": 100
+  },
+  {
+   "type": "select_one ano_construccion",
+   "name": "ano_construccion",
+   "label": "Año de construcción",
+   "hint": "Los rangos corresponden a las normas sismo resistentes vigentes.",
+   "appearance": "minimal",
+   "required": "yes",
+   "relevant": "${estado_colapso}!='total'",
+   "bind::esri:fieldLength": 30
+  },
+  {
+   "type": "integer",
+   "name": "num_pisos",
+   "label": "Número de pisos sobre el nivel del suelo",
+   "required": "yes",
+   "constraint": ". >= 0 and . <= 200",
+   "constraint_message": "Ingrese un valor entre 0 y 200",
+   "relevant": "${estado_colapso}!='total'"
+  },
+  {
+   "type": "integer",
+   "name": "num_sotanos",
+   "label": "Número de sótanos",
+   "required": "yes",
+   "constraint": ". >= 0 and . <= 20",
+   "constraint_message": "Ingrese un valor entre 0 y 20",
+   "relevant": "${estado_colapso}!='total'"
+  },
+  {
+   "type": "decimal",
+   "name": "dim_frente",
+   "label": "Dimensiones aproximadas - Frente (m)",
+   "required": "yes",
+   "constraint": ". > 0 and . < 1000",
+   "constraint_message": "Ingrese un valor mayor que 0 y menor que 1000",
+   "relevant": "${estado_colapso}!='total'"
+  },
+  {
+   "type": "decimal",
+   "name": "dim_fondo",
+   "label": "Dimensiones aproximadas - Fondo (m)",
+   "required": "yes",
+   "constraint": ". > 0 and . < 1000",
+   "constraint_message": "Ingrese un valor mayor que 0 y menor que 1000",
+   "relevant": "${estado_colapso}!='total'"
+  },
+  {
+   "type": "calculate",
+   "name": "area_huella_campo",
+   "calculation": "${dim_frente} * ${dim_fondo}",
+   "repeat_count": "esriFieldTypeDouble",
+   "bind::esri:fieldType": "esriFieldTypeDouble"
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "s4_tipologia",
+   "label": "<div style=\"background-color:#3F3C3B; color:#FFFFFF; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">4. Sistema estructural, entrepiso y cubierta</h3></div>",
+   "appearance": "field-list",
+   "body::esri:style": "backgroundColor=\"#ECEBEC\" borderColor=\"#3F3C3B\""
+  },
+  {
+   "type": "note",
+   "name": "nota_t1",
+   "label": "<b><font color=\"#005187\">4.1. Sistema estructural</font></b>",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "select_one material_estructural",
+   "name": "mat_estructural",
+   "label": "Material",
+   "appearance": "minimal",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "select_one sistema_estructural",
+   "name": "sist_estructural",
+   "label": "Sistema estructural",
+   "appearance": "minimal",
+   "required": "yes",
+   "choice_filter": "material=${mat_estructural}",
+   "bind::esri:fieldLength": 30
+  },
+  {
+   "type": "text",
+   "name": "sist_estructural_otro",
+   "label": "Especifique cuáles",
+   "hint": "Indique qué materiales y sistemas estructurales se combinan.",
+   "appearance": "predictivetext",
+   "required": "yes",
+   "relevant": "selected(${sist_estructural},'acero_otro') or selected(${sist_estructural},'mixto')",
+   "bind::esri:fieldLength": 200
+  },
+  {
+   "type": "note",
+   "name": "nota_t2",
+   "label": "<b><font color=\"#005187\">4.2. Sistema de entrepiso</font></b>",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "select_one material_entrepiso",
+   "name": "mat_entrepiso",
+   "label": "Material",
+   "appearance": "minimal",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "select_one sistema_entrepiso",
+   "name": "sist_entrepiso",
+   "label": "Sistema de entrepiso",
+   "appearance": "minimal",
+   "choice_filter": "material=${mat_entrepiso}",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "text",
+   "name": "sist_entrepiso_otro",
+   "label": "Especifique cuáles",
+   "appearance": "predictivetext",
+   "required": "yes",
+   "relevant": "selected(${sist_entrepiso},'entrepiso_otro') or selected(${sist_entrepiso},'mixto')",
+   "bind::esri:fieldLength": 200
+  },
+  {
+   "type": "note",
+   "name": "nota_t3",
+   "label": "<b><font color=\"#005187\">4.3. Soporte de la cubierta</font></b>",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "select_one material_cubierta",
+   "name": "mat_sop_cubierta",
+   "label": "Material",
+   "appearance": "minimal",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "select_one soporte_cubierta",
+   "name": "sop_cubierta",
+   "label": "Sistema de soporte de la cubierta",
+   "appearance": "minimal",
+   "required": "yes",
+   "choice_filter": "material=${mat_sop_cubierta}",
+   "bind::esri:fieldLength": 30
+  },
+  {
+   "type": "text",
+   "name": "sop_cubierta_otro",
+   "label": "¿Cuál?",
+   "appearance": "predictivetext",
+   "required": "yes",
+   "relevant": "selected(${sop_cubierta},'cubierta_otro')",
+   "bind::esri:fieldLength": 100
+  },
+  {
+   "type": "note",
+   "name": "nota_t4",
+   "label": "<b><font color=\"#005187\">4.4. Tipo de cubierta</font></b>",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "select_one tipo_cubierta",
+   "name": "tipo_cubierta",
+   "label": "Tipo de cubierta",
+   "appearance": "minimal",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "text",
+   "name": "tipo_cubierta_otro",
+   "label": "¿Cuál?",
+   "appearance": "predictivetext",
+   "required": "yes",
+   "relevant": "selected(${tipo_cubierta},'otro')",
+   "bind::esri:fieldLength": 100
+  },
+  {
+   "type": "note",
+   "name": "nota_t5",
+   "label": "<b><font color=\"#005187\">4.5. Muros</font></b>",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "select_multiple muros",
+   "name": "muros_divisorios",
+   "label": "Muros divisorios y de cerramiento",
+   "hint": "Puede marcar varios.",
+   "appearance": "minimal",
+   "required": "yes",
+   "bind::esri:fieldLength": 255
+  },
+  {
+   "type": "text",
+   "name": "muros_otro",
+   "label": "¿Cuáles?",
+   "appearance": "predictivetext",
+   "required": "yes",
+   "relevant": "selected(${muros_divisorios},'otro')",
+   "bind::esri:fieldLength": 200
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "s5_ocupantes",
+   "label": "<div style=\"background-color:#3F3C3B; color:#FFFFFF; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">5. Ocupantes y contacto</h3></div>",
+   "appearance": "field-list",
+   "body::esri:style": "backgroundColor=\"#ECEBEC\" borderColor=\"#3F3C3B\""
+  },
+  {
+   "type": "select_one si_no",
+   "name": "recoleccion_ocupantes",
+   "label": "¿Le es posible obtener la información de ocupantes y/o propietario?",
+   "required": "yes"
+  },
+  {
+   "type": "text",
+   "name": "propietario",
+   "label": "Nombre del propietario o responsable",
+   "appearance": "predictivetext",
+   "relevant": "${recoleccion_ocupantes}='si'",
+   "bind::esri:fieldLength": 100
+  },
+  {
+   "type": "text",
+   "name": "propietario_celular",
+   "label": "Celular del propietario o responsable",
+   "hint": "10 dígitos, sin indicativo ni espacios.",
+   "appearance": "numbers",
+   "constraint": "string-length(.)=0 or regex(., '^[0-9]{10}$')",
+   "constraint_message": "Debe tener 10 dígitos, sin espacios ni signos.",
+   "relevant": "${recoleccion_ocupantes}='si'",
+   "bind::esri:fieldLength": 10
+  },
+  {
+   "type": "text",
+   "name": "propietario_documento",
+   "label": "Documento del propietario o responsable",
+   "appearance": "numbers",
+   "relevant": "${recoleccion_ocupantes}='si'",
+   "bind::esri:fieldLength": 30
+  },
+  {
+   "type": "select_one ocupacion",
+   "name": "estado_ocupacion",
+   "label": "Estado de la edificación al momento de la visita",
+   "appearance": "horizontal",
+   "required": "yes",
+   "relevant": "${recoleccion_ocupantes}='si'",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "integer",
+   "name": "hab_hombres",
+   "label": "Hombres que habitan/habitaban la edificación",
+   "constraint": ". >= 0",
+   "constraint_message": "Debe ser mayor o igual a 0",
+   "relevant": "${recoleccion_ocupantes}='si'"
+  },
+  {
+   "type": "integer",
+   "name": "hab_mujeres",
+   "label": "Mujeres que habitan/habitaban la edificación",
+   "constraint": ". >= 0",
+   "constraint_message": "Debe ser mayor o igual a 0",
+   "relevant": "${recoleccion_ocupantes}='si'"
+  },
+  {
+   "type": "integer",
+   "name": "hab_menores",
+   "label": "Personas menores de 18 años que habitan/habitaban la edificación",
+   "constraint": ". >= 0",
+   "constraint_message": "Debe ser mayor o igual a 0",
+   "relevant": "${recoleccion_ocupantes}='si'"
+  },
+  {
+   "type": "integer",
+   "name": "hab_mayores",
+   "label": "Personas mayores de 60 años que habitan/habitaban la edificación",
+   "constraint": ". >= 0",
+   "constraint_message": "Debe ser mayor o igual a 0",
+   "relevant": "${recoleccion_ocupantes}='si'"
+  },
+  {
+   "type": "calculate",
+   "name": "hab_total",
+   "calculation": "${hab_hombres} + ${hab_mujeres}",
+   "relevant": "${recoleccion_ocupantes}='si'",
+   "repeat_count": "esriFieldTypeInteger",
+   "bind::esri:fieldType": "esriFieldTypeInteger"
+  },
+  {
+   "type": "note",
+   "name": "nota_hab_total",
+   "label": "<b>Total de habitantes:</b> <font color=\"#1B5E20\" size=\"4\">${hab_total}</font>",
+   "relevant": "${recoleccion_ocupantes}='si'",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "s6_fotos",
+   "label": "<div style=\"background-color:#3F3C3B; color:#FFFFFF; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">6. Registro fotográfico general</h3></div>",
+   "appearance": "field-list",
+   "body::esri:style": "backgroundColor=\"#ECEBEC\" borderColor=\"#3F3C3B\""
+  },
+  {
+   "type": "note",
+   "name": "nota_fotos",
+   "label": "<b><font color=\"#005187\">Registro fotográfico</font></b><br><font color=\"#3F3C3B\">Tome al menos dos: una vista general de la fachada y otra desde un costado, que deje ver la forma de la edificación.</font>",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "image",
+   "name": "foto_edificacion",
+   "label": "Fotografías de la edificación",
+   "hint": "Máximo 4.",
+   "appearance": "multiline",
+   "required": "yes",
+   "constraint": "count-selected(.)<=4",
+   "constraint_message": "Puede cargar máximo 4 fotografías"
+  },
+  {
+   "type": "text",
+   "name": "foto_descripcion",
+   "label": "Descripción de las fotografías",
+   "appearance": "multiline predictivetext",
+   "bind::esri:fieldLength": 500
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "s7_modulos",
+   "label": "<div style=\"background-color:#3F3C3B; color:#FFFFFF; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">7. Ruta de la visita</h3></div>",
+   "appearance": "field-list",
+   "body::esri:style": "backgroundColor=\"#ECEBEC\" borderColor=\"#3F3C3B\""
+  },
+  {
+   "type": "note",
+   "name": "nota_modulos",
+   "label": "<div style=\"background-color:#ECEBEC; border-left:6px solid #3F3C3B; padding:12px; border-radius:6px; color:#1D1D1B;\"><b>Ruta de la visita</b><br>Si se diligencia la evaluación rápida de daños, el formulario lo guiará según la clasificación de habitabilidad. Si no se diligencia, indique el motivo y escoja manualmente los apartados que sí se van a levantar.</div>",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "note",
+   "name": "nota_modulos_total",
+   "label": "<div style=\"background-color:#E0EAF1; border-left:6px solid #005187; padding:12px; border-radius:6px; color:#003A61;\"><b>Colapso total registrado en la sección 3.</b><br>La visita continúa directamente en Demolición y escombros. No se diligencian Evaluación ni Reparabilidad.</div>",
+   "relevant": "${estado_colapso}='total'",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "select_one si_no",
+   "name": "gate_evaluacion",
+   "label": "¿Se debe diligenciar la evaluación rápida de daños?",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "relevant": "${estado_colapso}!='total'",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "select_one motivos",
+   "name": "motivo_evaluacion",
+   "label": "Motivo por el cual NO se diligencia la evaluación",
+   "appearance": "minimal",
+   "required": "yes",
+   "relevant": "${gate_evaluacion}='no'",
+   "bind::esri:fieldLength": 50
+  },
+  {
+   "type": "select_one modulos_rd",
+   "name": "modulo_continuar",
+   "label": "¿Con cuál módulo desea continuar?",
+   "hint": "Marque el que aplique.",
+   "relevant": "${gate_evaluacion}='no'",
+   "bind::esri:fieldLength": 100
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "a0_alcance",
+   "label": "<div style=\"background-color:#0091CC; color:#FFFFFF; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">A. Evaluación - alcance</h3></div>",
+   "appearance": "field-list",
+   "relevant": "${estado_colapso}!='total' and ${gate_evaluacion}='si'",
+   "body::esri:style": "backgroundColor=\"#E0F2F9\" borderColor=\"#0091CC\""
+  },
+  {
+   "type": "note",
+   "name": "eva_nota_intro",
+   "label": "<b><font color=\"#005187\">Módulo de Evaluación de daños</font></b><br><font color=\"#3F3C3B\">Evaluación rápida por inspección visual de daños.</font>",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "select_one tipo_inspeccion",
+   "name": "eva_tipo_inspeccion",
+   "label": "Tipo de inspección",
+   "appearance": "horizontal",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "select_one tipo_amenaza",
+   "name": "eva_tipo_amenaza",
+   "label": "Tipo de amenaza",
+   "appearance": "minimal",
+   "required": "yes",
+   "default": "sismo",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "text",
+   "name": "eva_tipo_amenaza_otro",
+   "label": "¿Cuál?",
+   "appearance": "predictivetext",
+   "required": "yes",
+   "relevant": "selected(${eva_tipo_amenaza},'otro')",
+   "bind::esri:fieldLength": 100
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "a1_entorno",
+   "label": "<div style=\"background-color:#0091CC; color:#FFFFFF; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">A.1. Condiciones preexistentes y del entorno</h3></div>",
+   "appearance": "field-list",
+   "relevant": "${estado_colapso}!='total' and ${gate_evaluacion}='si'",
+   "body::esri:style": "backgroundColor=\"#E0F2F9\" borderColor=\"#0091CC\""
+  },
+  {
+   "type": "note",
+   "name": "eva_nota_morf",
+   "label": "<b><font color=\"#005187\">Morfología del sitio</font></b>",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "select_one morfologia",
+   "name": "eva_morfologia",
+   "label": "Morfología del sitio",
+   "appearance": "minimal",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "text",
+   "name": "eva_morfologia_otro",
+   "label": "¿Cuál?",
+   "appearance": "predictivetext",
+   "required": "yes",
+   "relevant": "selected(${eva_morfologia},'otro')",
+   "bind::esri:fieldLength": 100
+  },
+  {
+   "type": "note",
+   "name": "eva_nota_hidrica",
+   "label": "<b><font color=\"#005187\">Amenaza por cuerpos hídricos afectados</font></b>",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "select_one si_no",
+   "name": "eva_amenaza_hidrica",
+   "label": "¿Amenaza por cuerpos hídricos afectados?",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "decimal",
+   "name": "eva_distancia_hidrica",
+   "label": "Distancia aproximada (m)",
+   "required": "yes",
+   "constraint": ". >= 0",
+   "constraint_message": "Debe ser mayor o igual a 0",
+   "relevant": "${eva_amenaza_hidrica}='si'"
+  },
+  {
+   "type": "text",
+   "name": "eva_obs_hidrica",
+   "label": "Observaciones",
+   "appearance": "multiline predictivetext",
+   "bind::esri:fieldLength": 500
+  },
+  {
+   "type": "note",
+   "name": "eva_nota_irreg",
+   "label": "<b><font color=\"#005187\">Irregularidades estructurales</font></b><br><font color=\"#3F3C3B\">Se diligencian porque la evaluación de daños es por sismo.</font>",
+   "relevant": "${eva_tipo_amenaza}='sismo'",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "select_one si_no",
+   "name": "eva_piso_debil",
+   "label": "¿Hay piso débil?",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "relevant": "${eva_tipo_amenaza}='sismo'",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "select_one si_no",
+   "name": "eva_columna_corta",
+   "label": "¿Hay piso con columna corta?",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "relevant": "${eva_tipo_amenaza}='sismo'",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "select_one si_no",
+   "name": "eva_cambios_rigidez",
+   "label": "¿Hay cambios drásticos de rigidez?",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "relevant": "${eva_tipo_amenaza}='sismo'",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "a2_peligro",
+   "label": "<div style=\"background-color:#0091CC; color:#FFFFFF; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">A.2. Peligro global y condiciones geotécnicas</h3></div>",
+   "appearance": "field-list",
+   "relevant": "${estado_colapso}!='total' and ${gate_evaluacion}='si'",
+   "body::esri:style": "backgroundColor=\"#E0F2F9\" borderColor=\"#0091CC\""
+  },
+  {
+   "type": "note",
+   "name": "eva_nota_peligro",
+   "label": "<b><font color=\"#005187\">Peligro global</font></b>",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "note",
+   "name": "eva_nota_estado",
+   "label": "<b><font color=\"#005187\">Estado estructural registrado al inicio</font></b><br><font color=\"#3F3C3B\">En la sección 3 usted indicó:<br>&nbsp;&nbsp;<b>Colapso:</b> ${estado_colapso}<br>&nbsp;&nbsp;<b>Inclinación evidente:</b> ${inclinacion}<br>Estos datos alimentan la sugerencia de habitabilidad. Si necesita corregirlos, regrese a la sección 3.</font>",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "select_one si_no_noclaro",
+   "name": "eva_riesgo_adyacentes",
+   "label": "Riesgo por edificaciones adyacentes",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "note",
+   "name": "eva_nota_geo",
+   "label": "<b><font color=\"#005187\">Peligro por condiciones geotécnicas</font></b>",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "select_one si_no",
+   "name": "eva_licuacion",
+   "label": "Licuación, asentamiento o subsidencia del terreno",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "select_one si_no",
+   "name": "eva_mov_masa",
+   "label": "Movimientos en masa cercanos",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "a3_estructural",
+   "label": "<div style=\"background-color:#0091CC; color:#FFFFFF; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">A.3. Daño en elementos estructurales</h3></div>",
+   "appearance": "field-list",
+   "relevant": "${estado_colapso}!='total' and ${gate_evaluacion}='si'",
+   "body::esri:style": "backgroundColor=\"#E0F2F9\" borderColor=\"#0091CC\""
+  },
+  {
+   "type": "note",
+   "name": "eva_nota_esc_est",
+   "label": "<b><font color=\"#005187\">Escala de daño</font></b><br><font color=\"#3F3C3B\">N Ninguno · L Leve · M Moderado · S Severo. Al marcar L, M o S se habilita la fotografía del elemento.</font><br><font color=\"#3F3C3B\"><b>Concreto y acero:</b> L fisuras de menos de 1 mm · M de 1 a 3 mm, desprende recubrimiento · S más de 3 mm, acero expuesto o deformación del elemento.</font><br><font color=\"#3F3C3B\"><b>Muros portantes:</b> L fisuras de menos de 1 mm · M de 1 a 5 mm · S más de 5 mm, agrietamiento diagonal en X o desplome fuera del plano.</font>",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "select_one nivel_nlms",
+   "name": "eva_dano_columnas",
+   "label": "Columnas",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "image",
+   "name": "eva_foto_columnas",
+   "label": "Fotografía del daño - Columnas",
+   "relevant": "selected(${eva_dano_columnas},'l') or selected(${eva_dano_columnas},'m') or selected(${eva_dano_columnas},'s')"
+  },
+  {
+   "type": "select_one nivel_nlms",
+   "name": "eva_dano_muros_portantes",
+   "label": "Muros portantes",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "image",
+   "name": "eva_foto_muros_portantes",
+   "label": "Fotografía del daño - Muros portantes",
+   "relevant": "selected(${eva_dano_muros_portantes},'l') or selected(${eva_dano_muros_portantes},'m') or selected(${eva_dano_muros_portantes},'s')"
+  },
+  {
+   "type": "select_one nivel_nlms",
+   "name": "eva_dano_vigas",
+   "label": "Vigas",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "image",
+   "name": "eva_foto_vigas",
+   "label": "Fotografía del daño - Vigas",
+   "relevant": "selected(${eva_dano_vigas},'l') or selected(${eva_dano_vigas},'m') or selected(${eva_dano_vigas},'s')"
+  },
+  {
+   "type": "select_one nivel_nlms",
+   "name": "eva_dano_nodos",
+   "label": "Nodos o puntos de conexión",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "image",
+   "name": "eva_foto_nodos",
+   "label": "Fotografía del daño - Nodos o puntos de conexión",
+   "relevant": "selected(${eva_dano_nodos},'l') or selected(${eva_dano_nodos},'m') or selected(${eva_dano_nodos},'s')"
+  },
+  {
+   "type": "select_one nivel_nlms",
+   "name": "eva_dano_riostras",
+   "label": "Riostras",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "image",
+   "name": "eva_foto_riostras",
+   "label": "Fotografía del daño - Riostras",
+   "relevant": "selected(${eva_dano_riostras},'l') or selected(${eva_dano_riostras},'m') or selected(${eva_dano_riostras},'s')"
+  },
+  {
+   "type": "select_one nivel_nlms",
+   "name": "eva_dano_entrepiso",
+   "label": "Entrepiso",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "image",
+   "name": "eva_foto_entrepiso",
+   "label": "Fotografía del daño - Entrepiso",
+   "relevant": "selected(${eva_dano_entrepiso},'l') or selected(${eva_dano_entrepiso},'m') or selected(${eva_dano_entrepiso},'s')"
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "a4_no_est_a",
+   "label": "<div style=\"background-color:#0091CC; color:#FFFFFF; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">A.4. Daño no estructural - cerramientos y circulación</h3></div>",
+   "appearance": "field-list",
+   "relevant": "${estado_colapso}!='total' and ${gate_evaluacion}='si'",
+   "body::esri:style": "backgroundColor=\"#E0F2F9\" borderColor=\"#0091CC\""
+  },
+  {
+   "type": "note",
+   "name": "eva_nota_ne1",
+   "label": "<b><font color=\"#005187\">Cerramientos, acabados y circulación</font></b><br><font color=\"#3F3C3B\">N Ninguno · L Leve · M Moderado · S Severo. Al marcar L, M o S se habilita la fotografía del elemento.</font><br><font color=\"#3F3C3B\">L daño superficial sin riesgo de caída · M riesgo de caída parcial, requiere acordonar el área · S colapsado o con caída inminente, evacuar.</font><br><font color=\"#3F3C3B\">Los elementos interiores solo aparecen si la inspección es <b>Completa</b>.</font>",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "select_one nivel_nlms",
+   "name": "eva_dano_muros_fachada",
+   "label": "Muros de fachada / antepechos",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "image",
+   "name": "eva_foto_muros_fachada",
+   "label": "Fotografía del daño - Muros de fachada / antepechos",
+   "relevant": "selected(${eva_dano_muros_fachada},'l') or selected(${eva_dano_muros_fachada},'m') or selected(${eva_dano_muros_fachada},'s')"
+  },
+  {
+   "type": "select_one nivel_nlms",
+   "name": "eva_dano_muros_div",
+   "label": "Muros divisorios",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "relevant": "${eva_tipo_inspeccion}='completa'",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "image",
+   "name": "eva_foto_muros_div",
+   "label": "Fotografía del daño - Muros divisorios",
+   "relevant": "selected(${eva_dano_muros_div},'l') or selected(${eva_dano_muros_div},'m') or selected(${eva_dano_muros_div},'s')"
+  },
+  {
+   "type": "select_one nivel_nlms",
+   "name": "eva_dano_ventanales",
+   "label": "Ventanales / vidrios de fachada",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "image",
+   "name": "eva_foto_ventanales",
+   "label": "Fotografía del daño - Ventanales / vidrios de fachada",
+   "relevant": "selected(${eva_dano_ventanales},'l') or selected(${eva_dano_ventanales},'m') or selected(${eva_dano_ventanales},'s')"
+  },
+  {
+   "type": "select_one nivel_nlms",
+   "name": "eva_dano_cielo_raso",
+   "label": "Cielo raso / luminarias",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "relevant": "${eva_tipo_inspeccion}='completa'",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "image",
+   "name": "eva_foto_cielo_raso",
+   "label": "Fotografía del daño - Cielo raso / luminarias",
+   "relevant": "selected(${eva_dano_cielo_raso},'l') or selected(${eva_dano_cielo_raso},'m') or selected(${eva_dano_cielo_raso},'s')"
+  },
+  {
+   "type": "select_one nivel_nlms",
+   "name": "eva_dano_cubiertas",
+   "label": "Cubiertas",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "image",
+   "name": "eva_foto_cubiertas",
+   "label": "Fotografía del daño - Cubiertas",
+   "relevant": "selected(${eva_dano_cubiertas},'l') or selected(${eva_dano_cubiertas},'m') or selected(${eva_dano_cubiertas},'s')"
+  },
+  {
+   "type": "select_one nivel_nlms",
+   "name": "eva_dano_escaleras",
+   "label": "Escaleras",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "relevant": "${eva_tipo_inspeccion}='completa'",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "image",
+   "name": "eva_foto_escaleras",
+   "label": "Fotografía del daño - Escaleras",
+   "relevant": "selected(${eva_dano_escaleras},'l') or selected(${eva_dano_escaleras},'m') or selected(${eva_dano_escaleras},'s')"
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "a5_no_est_b",
+   "label": "<div style=\"background-color:#0091CC; color:#FFFFFF; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">A.5. Daño no estructural - equipos e instalaciones</h3></div>",
+   "appearance": "field-list",
+   "relevant": "${estado_colapso}!='total' and ${gate_evaluacion}='si'",
+   "body::esri:style": "backgroundColor=\"#E0F2F9\" borderColor=\"#0091CC\""
+  },
+  {
+   "type": "note",
+   "name": "eva_nota_ne2",
+   "label": "<b><font color=\"#005187\">Equipos e instalaciones</font></b><br><font color=\"#3F3C3B\">N Ninguno · L Leve · M Moderado · S Severo. Al marcar L, M o S se habilita la fotografía del elemento.</font><br><font color=\"#3F3C3B\"><b>Elementos:</b> L sin riesgo de caída · M riesgo de caída parcial · S caída inminente, evacuar.</font><br><font color=\"#3F3C3B\"><b>Instalaciones:</b> L opera con normalidad · M obliga a suspender el servicio · S fuga o conductor expuesto, desconectar de inmediato.</font>",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "select_one nivel_nlms",
+   "name": "eva_dano_ascensores",
+   "label": "Ascensores",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "relevant": "${eva_tipo_inspeccion}='completa'",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "image",
+   "name": "eva_foto_ascensores",
+   "label": "Fotografía del daño - Ascensores",
+   "relevant": "selected(${eva_dano_ascensores},'l') or selected(${eva_dano_ascensores},'m') or selected(${eva_dano_ascensores},'s')"
+  },
+  {
+   "type": "select_one nivel_nlms",
+   "name": "eva_dano_balcones",
+   "label": "Balcones",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "image",
+   "name": "eva_foto_balcones",
+   "label": "Fotografía del daño - Balcones",
+   "relevant": "selected(${eva_dano_balcones},'l') or selected(${eva_dano_balcones},'m') or selected(${eva_dano_balcones},'s')"
+  },
+  {
+   "type": "select_one nivel_nlms",
+   "name": "eva_dano_tanques",
+   "label": "Tanques elevados",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "image",
+   "name": "eva_foto_tanques",
+   "label": "Fotografía del daño - Tanques elevados",
+   "relevant": "selected(${eva_dano_tanques},'l') or selected(${eva_dano_tanques},'m') or selected(${eva_dano_tanques},'s')"
+  },
+  {
+   "type": "select_one nivel_nlms",
+   "name": "eva_dano_gas",
+   "label": "Instalaciones de gas",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "relevant": "${eva_tipo_inspeccion}='completa'",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "image",
+   "name": "eva_foto_gas",
+   "label": "Fotografía del daño - Instalaciones de gas",
+   "relevant": "selected(${eva_dano_gas},'l') or selected(${eva_dano_gas},'m') or selected(${eva_dano_gas},'s')"
+  },
+  {
+   "type": "select_one nivel_nlms",
+   "name": "eva_dano_electricas",
+   "label": "Instalaciones eléctricas",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "relevant": "${eva_tipo_inspeccion}='completa'",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "image",
+   "name": "eva_foto_electricas",
+   "label": "Fotografía del daño - Instalaciones eléctricas",
+   "relevant": "selected(${eva_dano_electricas},'l') or selected(${eva_dano_electricas},'m') or selected(${eva_dano_electricas},'s')"
+  },
+  {
+   "type": "select_one nivel_nlms",
+   "name": "eva_dano_acueducto",
+   "label": "Acueducto y alcantarillado",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "relevant": "${eva_tipo_inspeccion}='completa'",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "image",
+   "name": "eva_foto_acueducto",
+   "label": "Fotografía del daño - Acueducto y alcantarillado",
+   "relevant": "selected(${eva_dano_acueducto},'l') or selected(${eva_dano_acueducto},'m') or selected(${eva_dano_acueducto},'s')"
+  },
+  {
+   "type": "select_one nivel_nlms",
+   "name": "eva_dano_otros",
+   "label": "Otros",
+   "appearance": "horizontal-compact",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "text",
+   "name": "eva_dano_otros_desc",
+   "label": "Otros, ¿cuál?",
+   "appearance": "predictivetext",
+   "required": "yes",
+   "relevant": "selected(${eva_dano_otros},'l') or selected(${eva_dano_otros},'m') or selected(${eva_dano_otros},'s')",
+   "bind::esri:fieldLength": 150
+  },
+  {
+   "type": "image",
+   "name": "eva_foto_otros",
+   "label": "Fotografía del daño - Otros",
+   "relevant": "selected(${eva_dano_otros},'l') or selected(${eva_dano_otros},'m') or selected(${eva_dano_otros},'s')"
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "a6_clasificacion",
+   "label": "<div style=\"background-color:#0091CC; color:#FFFFFF; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">A.6. Clasificación de habitabilidad y del daño</h3></div>",
+   "appearance": "field-list",
+   "relevant": "${estado_colapso}!='total' and ${gate_evaluacion}='si'",
+   "body::esri:style": "backgroundColor=\"#E0F2F9\" borderColor=\"#0091CC\""
+  },
+  {
+   "type": "calculate",
+   "name": "eva_sugerencia",
+   "calculation": "if(string-length(${eva_dano_columnas})=0 or string-length(${eva_dano_muros_portantes})=0 or string-length(${eva_dano_vigas})=0 or string-length(${eva_dano_nodos})=0 or string-length(${eva_dano_riostras})=0 or string-length(${eva_dano_entrepiso})=0, 'Complete la sección A.3 para ver la sugerencia', if(${estado_colapso}='total' or ${estado_colapso}='parcial' or ${inclinacion}='si' or ${eva_dano_columnas}='s' or ${eva_dano_muros_portantes}='s' or ${eva_dano_vigas}='s' or ${eva_dano_nodos}='s' or ${eva_dano_riostras}='s' or ${eva_dano_entrepiso}='s', 'NO HABITABLE (Rojo)', if(${eva_dano_columnas}='m' or ${eva_dano_muros_portantes}='m' or ${eva_dano_vigas}='m' or ${eva_dano_nodos}='m' or ${eva_dano_riostras}='m' or ${eva_dano_entrepiso}='m' or ${eva_riesgo_adyacentes}='si' or ${eva_licuacion}='si' or ${eva_mov_masa}='si', 'USO RESTRINGIDO (Amarillo)', 'HABITABLE (Verde)')))",
+   "repeat_count": "esriFieldTypeString",
+   "bind::esri:fieldType": "esriFieldTypeString",
+   "bind::esri:fieldLength": 60
+  },
+  {
+   "type": "note",
+   "name": "eva_sug_rojo",
+   "label": "<font color=\"#C62828\"><b>Sugerencia del sistema: NO HABITABLE (Rojo)</b></font><br><font color=\"#3F3C3B\">Calculada con el peligro global, las condiciones geotécnicas y el daño estructural. Es una ayuda; la decisión es del evaluador.</font>",
+   "relevant": "${eva_sugerencia}='NO HABITABLE (Rojo)'",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "note",
+   "name": "eva_sug_amarillo",
+   "label": "<font color=\"#C77700\"><b>Sugerencia del sistema: USO RESTRINGIDO (Amarillo)</b></font><br><font color=\"#3F3C3B\">Es una ayuda; la decisión es del evaluador.</font>",
+   "relevant": "${eva_sugerencia}='USO RESTRINGIDO (Amarillo)'",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "note",
+   "name": "eva_sug_verde",
+   "label": "<font color=\"#1B7F3B\"><b>Sugerencia del sistema: HABITABLE (Verde)</b></font><br><font color=\"#3F3C3B\">Es una ayuda; la decisión es del evaluador.</font>",
+   "relevant": "${eva_sugerencia}='HABITABLE (Verde)'",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "note",
+   "name": "eva_sug_falta",
+   "label": "<font color=\"#616161\">Complete la sección A.3 para ver la sugerencia del sistema.</font>",
+   "relevant": "${eva_sugerencia}='Complete la sección A.3 para ver la sugerencia'",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "select_one habitabilidad",
+   "name": "eva_clasif_habitabilidad",
+   "label": "Clasificación de habitabilidad",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "select_one nivel_dano",
+   "name": "eva_nivel_dano",
+   "label": "Clasificación del daño",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "select_one si_no",
+   "name": "eva_previa",
+   "label": "¿Existe una evaluación previa?",
+   "appearance": "horizontal-compact",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "text",
+   "name": "eva_previa_tipo",
+   "label": "Tipo de evaluación previa",
+   "appearance": "predictivetext",
+   "relevant": "${eva_previa}='si'",
+   "bind::esri:fieldLength": 100
+  },
+  {
+   "type": "text",
+   "name": "eva_previa_entidad",
+   "label": "Entidad que la realizó",
+   "appearance": "predictivetext",
+   "relevant": "${eva_previa}='si'",
+   "bind::esri:fieldLength": 100
+  },
+  {
+   "type": "select_one habitabilidad",
+   "name": "eva_previa_clasif",
+   "label": "Clasificación de habitabilidad de la evaluación previa",
+   "relevant": "${eva_previa}='si'",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "date",
+   "name": "eva_previa_fecha",
+   "label": "Fecha de la evaluación previa",
+   "constraint": ". <= today()",
+   "constraint_message": "La fecha no puede ser posterior a hoy",
+   "relevant": "${eva_previa}='si'"
+  },
+  {
+   "type": "note",
+   "name": "eva_nota_fin_habitable",
+   "label": "<div style=\"background-color:#E7F4EC; border-left:6px solid #1B7F3B; padding:12px; border-radius:6px; color:#14622D;\"><b>La edificación es HABITABLE. El cuestionario termina en este apartado.</b><br>No se requiere Reparabilidad ni Demolición y escombros. Complete este módulo y envíe el formulario.</div>",
+   "relevant": "${eva_clasif_habitabilidad}='habitable'",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "note",
+   "name": "eva_nota_fin_restringido",
+   "label": "<div style=\"background-color:#FDF3E0; border-left:6px solid #C77700; padding:12px; border-radius:6px; color:#8A5400;\"><b>La edificación es de USO RESTRINGIDO. El cuestionario continúa en Reparabilidad.</b><br>Al final de ese módulo se le preguntará si la edificación debe demolerse.</div>",
+   "relevant": "${eva_clasif_habitabilidad}='uso_restringido'",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "note",
+   "name": "eva_nota_fin_nohabitable",
+   "label": "<div style=\"background-color:#FBE9E9; border-left:6px solid #C62828; padding:12px; border-radius:6px; color:#8E1C1C;\"><b>La edificación es NO HABITABLE. El cuestionario continúa en Demolición y escombros.</b><br>No se diligencia Reparabilidad. Complete este módulo y envíe el formulario.</div>",
+   "relevant": "${eva_clasif_habitabilidad}='no_habitable'",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "a7_recomendaciones",
+   "label": "<div style=\"background-color:#0091CC; color:#FFFFFF; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">A.7. Recomendaciones y medidas de seguridad</h3></div>",
+   "appearance": "field-list",
+   "relevant": "${estado_colapso}!='total' and ${gate_evaluacion}='si'",
+   "body::esri:style": "backgroundColor=\"#E0F2F9\" borderColor=\"#0091CC\""
+  },
+  {
+   "type": "select_multiple eval_adicional",
+   "name": "eva_adicional",
+   "label": "Evaluación adicional",
+   "required": "yes",
+   "bind::esri:fieldLength": 255
+  },
+  {
+   "type": "select_multiple medidas",
+   "name": "eva_medidas",
+   "label": "Medidas de seguridad",
+   "required": "yes",
+   "bind::esri:fieldLength": 500
+  },
+  {
+   "type": "select_multiple servicios",
+   "name": "eva_servicios_desconectar",
+   "label": "Desconectar servicios",
+   "required": "yes",
+   "relevant": "selected(${eva_medidas},'desconectar_servicios')",
+   "bind::esri:fieldLength": 100
+  },
+  {
+   "type": "select_multiple paso",
+   "name": "eva_restringir_paso",
+   "label": "Restringir paso",
+   "required": "yes",
+   "relevant": "selected(${eva_medidas},'restringir_paso')",
+   "bind::esri:fieldLength": 100
+  },
+  {
+   "type": "text",
+   "name": "eva_medidas_otro",
+   "label": "¿Cuál otra medida?",
+   "appearance": "predictivetext",
+   "required": "yes",
+   "relevant": "selected(${eva_medidas},'otro')",
+   "bind::esri:fieldLength": 200
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "a8_intervencion",
+   "label": "<div style=\"background-color:#0091CC; color:#FFFFFF; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">A.8. Elementos a intervenir</h3></div>",
+   "appearance": "field-list",
+   "relevant": "${estado_colapso}!='total' and ${gate_evaluacion}='si'",
+   "body::esri:style": "backgroundColor=\"#E0F2F9\" borderColor=\"#0091CC\""
+  },
+  {
+   "type": "note",
+   "name": "eva_nota_interv",
+   "label": "<b><font color=\"#005187\">Elementos a intervenir</font></b><br><font color=\"#3F3C3B\">Marque los elementos que requieren intervención. Por cada uno indique el material y el área aproximada.</font>",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "select_one intervencion",
+   "name": "eva_tipo_intervencion",
+   "label": "Tipo de intervención requerida",
+   "appearance": "minimal",
+   "required": "yes",
+   "bind::esri:fieldLength": 30
+  },
+  {
+   "type": "select_multiple elementos",
+   "name": "eva_elementos_interv",
+   "label": "Elementos a intervenir",
+   "hint": "Puede marcar varios.",
+   "required": "yes",
+   "relevant": "${eva_tipo_intervencion}!='ninguna'",
+   "bind::esri:fieldLength": 255
+  },
+  {
+   "type": "text",
+   "name": "eva_mat_muros",
+   "label": "Muros - Material",
+   "required": "yes",
+   "relevant": "selected(${eva_elementos_interv}, 'muros')",
+   "bind::esri:fieldLength": 255
+  },
+  {
+   "type": "decimal",
+   "name": "eva_area_muros",
+   "label": "Muros - Área (m²)",
+   "required": "yes",
+   "constraint": ". > 0",
+   "constraint_message": "El área debe ser mayor que cero",
+   "relevant": "selected(${eva_elementos_interv}, 'muros')",
+   "repeat_count": "esriFieldTypeDouble"
+  },
+  {
+   "type": "text",
+   "name": "eva_mat_cubierta",
+   "label": "Cubierta - Material",
+   "required": "yes",
+   "relevant": "selected(${eva_elementos_interv}, 'cubierta')",
+   "bind::esri:fieldLength": 255
+  },
+  {
+   "type": "decimal",
+   "name": "eva_area_cubierta",
+   "label": "Cubierta - Área (m²)",
+   "required": "yes",
+   "constraint": ". > 0",
+   "constraint_message": "El área debe ser mayor que cero",
+   "relevant": "selected(${eva_elementos_interv}, 'cubierta')",
+   "repeat_count": "esriFieldTypeDouble"
+  },
+  {
+   "type": "text",
+   "name": "eva_mat_est_cubierta",
+   "label": "Estructura de cubierta - Material",
+   "required": "yes",
+   "relevant": "selected(${eva_elementos_interv}, 'est_cubierta')",
+   "bind::esri:fieldLength": 255
+  },
+  {
+   "type": "decimal",
+   "name": "eva_area_est_cubierta",
+   "label": "Estructura de cubierta - Área (m²)",
+   "required": "yes",
+   "constraint": ". > 0",
+   "constraint_message": "El área debe ser mayor que cero",
+   "relevant": "selected(${eva_elementos_interv}, 'est_cubierta')",
+   "repeat_count": "esriFieldTypeDouble"
+  },
+  {
+   "type": "text",
+   "name": "eva_mat_placa",
+   "label": "Placa - Material",
+   "required": "yes",
+   "relevant": "selected(${eva_elementos_interv}, 'placa')",
+   "bind::esri:fieldLength": 255
+  },
+  {
+   "type": "decimal",
+   "name": "eva_area_placa",
+   "label": "Placa - Área (m²)",
+   "required": "yes",
+   "constraint": ". > 0",
+   "constraint_message": "El área debe ser mayor que cero",
+   "relevant": "selected(${eva_elementos_interv}, 'placa')",
+   "repeat_count": "esriFieldTypeDouble"
+  },
+  {
+   "type": "text",
+   "name": "eva_obs_elementos",
+   "label": "Observaciones sobre los elementos",
+   "appearance": "multiline predictivetext",
+   "relevant": "${eva_tipo_intervencion}!='ninguna'",
+   "bind::esri:fieldLength": 2000
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "b0_reparabilidad",
+   "label": "<div style=\"background-color:#FEC82F; color:#1D1D1B; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">B. Reparabilidad</h3></div>",
+   "appearance": "field-list",
+   "relevant": "${estado_colapso}!='total' and (${eva_clasif_habitabilidad}='uso_restringido' or (${gate_evaluacion}='no' and ${modulo_continuar}='reparabilidad'))",
+   "body::esri:style": "backgroundColor=\"#FFF7DE\" borderColor=\"#FEC82F\""
+  },
+  {
+   "type": "note",
+   "name": "rep_nota_intro",
+   "label": "<b><font color=\"#005187\">Módulo de Reparabilidad - generalidades </font></b><br>",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "text",
+   "name": "rep_piso",
+   "label": "Pisos en los que se encuentran los daños",
+   "hint": "Puede indicar varios, por ejemplo: 1 y 3.",
+   "constraint": ". >= 0 and . <= 100",
+   "constraint_message": "Ingrese un valor entre 0 y 100",
+   "bind::esri:fieldLength": 50
+  },
+  {
+   "type": "text",
+   "name": "rep_unidad",
+   "label": "Número de unidad (si es multifamiliar)",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "b1_muro",
+   "label": "<div style=\"background-color:#FEC82F; color:#1D1D1B; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">B.1. Muro divisorio</h3></div>",
+   "appearance": "field-list",
+   "relevant": "(${estado_colapso}!='total' and (${eva_clasif_habitabilidad}='uso_restringido' or (${gate_evaluacion}='no' and ${modulo_continuar}='reparabilidad')))",
+   "body::esri:style": "backgroundColor=\"#FFF7DE\" borderColor=\"#FEC82F\""
+  },
+  {
+   "type": "select_one si_no",
+   "name": "rep_muro_dano",
+   "label": "¿Se observa daño en muros divisorios?",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "decimal",
+   "name": "rep_muro_longitud",
+   "label": "Longitud del muro (m)",
+   "required": "yes",
+   "constraint": ". > 0 and . <= 20",
+   "constraint_message": "Debe estar entre 0 y 20 m",
+   "relevant": "${rep_muro_dano}='si'"
+  },
+  {
+   "type": "decimal",
+   "name": "rep_muro_altura",
+   "label": "Altura del muro (m)",
+   "required": "yes",
+   "constraint": ". > 0 and . <= 10",
+   "constraint_message": "Debe estar entre 0 y 10 m",
+   "relevant": "${rep_muro_dano}='si'"
+  },
+  {
+   "type": "decimal",
+   "name": "rep_muro_espesor",
+   "label": "Espesor del muro (cm)",
+   "required": "yes",
+   "constraint": ". > 0 and . <= 100",
+   "constraint_message": "Debe estar entre 0 y 100 cm",
+   "relevant": "${rep_muro_dano}='si'"
+  },
+  {
+   "type": "calculate",
+   "name": "rep_muro_area",
+   "calculation": "${rep_muro_longitud} * ${rep_muro_altura}",
+   "bind::esri:fieldType": "esriFieldTypeDouble"
+  },
+  {
+   "type": "note",
+   "name": "rep_muro_nota_area",
+   "label": "<b>Área del muro:</b> <font color=\"#0D47A1\" size=\"4\">${rep_muro_area} m²</font>",
+   "relevant": "${rep_muro_dano}='si'",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "select_one material_muro",
+   "name": "rep_muro_material",
+   "label": "Material del muro",
+   "appearance": "minimal",
+   "required": "yes",
+   "relevant": "${rep_muro_dano}='si'",
+   "bind::esri:fieldLength": 50
+  },
+  {
+   "type": "select_one acabado_muro",
+   "name": "rep_muro_acabado",
+   "label": "Acabado del muro",
+   "appearance": "minimal",
+   "required": "yes",
+   "relevant": "${rep_muro_dano}='si'",
+   "bind::esri:fieldLength": 50
+  },
+  {
+   "type": "integer",
+   "name": "rep_muro_elementos",
+   "label": "¿Cuántos muros tienen estas características?",
+   "required": "yes",
+   "relevant": "${rep_muro_dano}='si'"
+  },
+  {
+   "type": "calculate",
+   "name": "rep_muro_total",
+   "calculation": "round(${rep_muro_area} * ${rep_muro_elementos}, 2)",
+   "bind::esri:fieldType": "esriFieldTypeDouble"
+  },
+  {
+   "type": "image",
+   "name": "rep_muro_foto",
+   "label": "Fotografía del daño en el muro",
+   "hint": "Máximo 3.",
+   "appearance": "multiline",
+   "required": "yes",
+   "constraint": "count-selected(.)<=3",
+   "constraint_message": "Puede cargar máximo 3 fotografías",
+   "relevant": "${rep_muro_dano}='si'"
+  },
+  {
+   "type": "text",
+   "name": "rep_muro_notas",
+   "label": "Observaciones",
+   "appearance": "multiline",
+   "relevant": "${rep_muro_dano}='si'",
+   "bind::esri:fieldLength": 500
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "b2_Panete",
+   "label": "<div style=\"background-color:#FEC82F; color:#1D1D1B; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">B.2. Pañete</h3></div>",
+   "appearance": "field-list",
+   "relevant": "(${estado_colapso}!='total' and (${eva_clasif_habitabilidad}='uso_restringido' or (${gate_evaluacion}='no' and ${modulo_continuar}='reparabilidad')))",
+   "body::esri:style": "backgroundColor=\"#FFF7DE\" borderColor=\"#FEC82F\""
+  },
+  {
+   "type": "select_one si_no",
+   "name": "rep_Panete_dano",
+   "label": "¿Se observa daño en el pañete?",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "select_one tipo_panete_col_col",
+   "name": "rep_Panete_tipo",
+   "label": "Forma del daño",
+   "appearance": "horizontal",
+   "required": "yes",
+   "relevant": "${rep_Panete_dano}='si'",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "decimal",
+   "name": "rep_Panete_area",
+   "label": "Área afectada (m²)",
+   "required": "yes",
+   "constraint": ". > 0 and . <= 50",
+   "constraint_message": "Debe estar entre 0 y 50 m²",
+   "relevant": "${rep_Panete_tipo}='area'"
+  },
+  {
+   "type": "decimal",
+   "name": "rep_Panete_longitud",
+   "label": "Longitud de la fisura (m)",
+   "required": "yes",
+   "constraint": ". > 0 and . <= 20",
+   "constraint_message": "Debe estar entre 0 y 20 m",
+   "relevant": "${rep_Panete_tipo}='lineal'"
+  },
+  {
+   "type": "integer",
+   "name": "rep_Panete_elementos",
+   "label": "¿Cuántas zonas tienen estas características?",
+   "required": "yes",
+   "relevant": "${rep_Panete_dano}='si'"
+  },
+  {
+   "type": "calculate",
+   "name": "rep_panete_total_long",
+   "calculation": "round(${rep_Panete_longitud} * ${rep_Panete_elementos}, 2)",
+   "bind::esri:fieldType": "esriFieldTypeDouble"
+  },
+  {
+   "type": "calculate",
+   "name": "rep_panete_total_area",
+   "calculation": "round(${rep_Panete_area} * ${rep_Panete_elementos}, 2)",
+   "bind::esri:fieldType": "esriFieldTypeDouble"
+  },
+  {
+   "type": "image",
+   "name": "rep_Panete_foto",
+   "label": "Fotografía del daño en el pañete",
+   "hint": "Máximo 3.",
+   "appearance": "multiline",
+   "required": "yes",
+   "constraint": "count-selected(.)<=3",
+   "constraint_message": "Puede cargar máximo 3 fotografías",
+   "relevant": "${rep_Panete_dano}='si'"
+  },
+  {
+   "type": "text",
+   "name": "rep_Panete_notas",
+   "label": "Observaciones",
+   "appearance": "multiline",
+   "relevant": "${rep_Panete_dano}='si'",
+   "bind::esri:fieldLength": 500
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "b3_columnas",
+   "label": "<div style=\"background-color:#FEC82F; color:#1D1D1B; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">B.3. Recubrimiento de columna</h3></div>",
+   "appearance": "field-list",
+   "relevant": "(${estado_colapso}!='total' and (${eva_clasif_habitabilidad}='uso_restringido' or (${gate_evaluacion}='no' and ${modulo_continuar}='reparabilidad')))",
+   "body::esri:style": "backgroundColor=\"#FFF7DE\" borderColor=\"#FEC82F\""
+  },
+  {
+   "type": "select_one si_no",
+   "name": "rep_col_dano",
+   "label": "¿Se observa daño en el recubrimiento de columnas?",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "select_one tipo_panete_col_col",
+   "name": "rep_col_tipo",
+   "label": "Forma del daño",
+   "appearance": "horizontal",
+   "required": "yes",
+   "relevant": "${rep_col_dano}='si'",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "decimal",
+   "name": "rep_col_area",
+   "label": "Área afectada (m²)",
+   "required": "yes",
+   "constraint": ". > 0 and . <=50",
+   "constraint_message": "Debe estar entre 0 y 50 m²",
+   "relevant": "${rep_col_tipo}='area'"
+  },
+  {
+   "type": "decimal",
+   "name": "rep_col_longitud",
+   "label": "Longitud de la fisura (m)",
+   "required": "yes",
+   "constraint": ". > 0 and . <= 20",
+   "constraint_message": "Debe estar entre 0 y 20 m",
+   "relevant": "${rep_col_tipo}='lineal'"
+  },
+  {
+   "type": "integer",
+   "name": "rep_col_elementos",
+   "label": "¿Cuántas columnas tienen estas características?",
+   "required": "yes",
+   "relevant": "${rep_col_dano}='si'"
+  },
+  {
+   "type": "calculate",
+   "name": "rep_col_total_long",
+   "calculation": "round(${rep_col_longitud} * ${rep_col_elementos}, 2)",
+   "bind::esri:fieldType": "esriFieldTypeDouble"
+  },
+  {
+   "type": "calculate",
+   "name": "rep_col_total_area",
+   "calculation": "round(${rep_col_area} * ${rep_col_elementos}, 2)",
+   "bind::esri:fieldType": "esriFieldTypeDouble"
+  },
+  {
+   "type": "image",
+   "name": "rep_col_foto",
+   "label": "Fotografía del daño en el recubrimiento",
+   "hint": "Máximo 3.",
+   "appearance": "multiline",
+   "required": "yes",
+   "constraint": "count-selected(.)<=3",
+   "constraint_message": "Puede cargar máximo 3 fotografías",
+   "relevant": "${rep_col_dano}='si'"
+  },
+  {
+   "type": "text",
+   "name": "rep_col_notas",
+   "label": "Observaciones",
+   "appearance": "multiline",
+   "relevant": "${rep_col_dano}='si'",
+   "bind::esri:fieldLength": 500
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "b4_ventanas",
+   "label": "<div style=\"background-color:#FEC82F; color:#1D1D1B; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">B.4. Ventanas</h3></div>",
+   "appearance": "field-list",
+   "relevant": "(${estado_colapso}!='total' and (${eva_clasif_habitabilidad}='uso_restringido' or (${gate_evaluacion}='no' and ${modulo_continuar}='reparabilidad')))",
+   "body::esri:style": "backgroundColor=\"#FFF7DE\" borderColor=\"#FEC82F\""
+  },
+  {
+   "type": "select_one si_no",
+   "name": "rep_ven_dano",
+   "label": "¿Se observa daño en la parte superior o inferior de las ventanas, que puedan repararse?",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "decimal",
+   "name": "rep_ven_alto",
+   "label": "Alto del daño (cm)",
+   "required": "yes",
+   "constraint": ". > 0 and . <= 100",
+   "constraint_message": "Debe estar entre 0 y 100 cm",
+   "relevant": "${rep_ven_dano}='si'"
+  },
+  {
+   "type": "decimal",
+   "name": "rep_ven_ancho",
+   "label": "Ancho del daño (cm)",
+   "required": "yes",
+   "constraint": ". > 0 and . <= 100",
+   "constraint_message": "Debe estar entre 0 y 100 cm",
+   "relevant": "${rep_ven_dano}='si'"
+  },
+  {
+   "type": "integer",
+   "name": "rep_ven_elementos",
+   "label": "¿Cuántas ventanas tienen estas características?",
+   "required": "yes",
+   "relevant": "${rep_ven_dano}='si'"
+  },
+  {
+   "type": "calculate",
+   "name": "rep_ven_total",
+   "calculation": "round(${rep_ven_alto} div 100 * ${rep_ven_ancho} div 100 * ${rep_ven_elementos}, 2)",
+   "bind::esri:fieldType": "esriFieldTypeDouble"
+  },
+  {
+   "type": "image",
+   "name": "rep_ven_foto",
+   "label": "Fotografía del daño en la parte superior o inferior de las ventanas",
+   "hint": "Máximo 3.",
+   "appearance": "multiline",
+   "required": "yes",
+   "constraint": "count-selected(.)<=3",
+   "constraint_message": "Puede cargar máximo 3 fotografías",
+   "relevant": "${rep_ven_dano}='si'"
+  },
+  {
+   "type": "text",
+   "name": "rep_ven_notas",
+   "label": "Observaciones",
+   "appearance": "multiline",
+   "relevant": "${rep_ven_dano}='si'",
+   "bind::esri:fieldLength": 500
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "b5_dinteles",
+   "label": "<div style=\"background-color:#FEC82F; color:#1D1D1B; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">B.5. Dinteles</h3></div>",
+   "appearance": "field-list",
+   "relevant": "(${estado_colapso}!='total' and (${eva_clasif_habitabilidad}='uso_restringido' or (${gate_evaluacion}='no' and ${modulo_continuar}='reparabilidad')))",
+   "body::esri:style": "backgroundColor=\"#FFF7DE\" borderColor=\"#FEC82F\""
+  },
+  {
+   "type": "select_one si_no",
+   "name": "rep_din_dano",
+   "label": "¿Se observa daño en el dintel?",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "decimal",
+   "name": "rep_din_ancho",
+   "label": "Ancho del vano de la puerta (m)",
+   "required": "yes",
+   "constraint": ". > 0 and . <= 10",
+   "constraint_message": "Debe estar entre 0 y 10 m",
+   "relevant": "${rep_din_dano}='si'"
+  },
+  {
+   "type": "integer",
+   "name": "rep_din_elementos",
+   "label": "¿Cuántos dinteles tienen estas características?",
+   "required": "yes",
+   "relevant": "${rep_din_dano}='si'"
+  },
+  {
+   "type": "calculate",
+   "name": "rep_din_total",
+   "calculation": "round(${rep_din_ancho} * ${rep_din_elementos}, 2)",
+   "bind::esri:fieldType": "esriFieldTypeDouble"
+  },
+  {
+   "type": "image",
+   "name": "rep_din_foto",
+   "label": "Fotografía del daño en el dintel",
+   "hint": "Máximo 3.",
+   "appearance": "multiline",
+   "required": "yes",
+   "constraint": "count-selected(.)<=3",
+   "constraint_message": "Puede cargar máximo 3 fotografías",
+   "relevant": "${rep_din_dano}='si'"
+  },
+  {
+   "type": "text",
+   "name": "rep_din_notas",
+   "label": "Observaciones",
+   "appearance": "multiline",
+   "relevant": "${rep_din_dano}='si'",
+   "bind::esri:fieldLength": 500
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "b6_cierre",
+   "label": "<div style=\"background-color:#FEC82F; color:#1D1D1B; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">B.6. Resumen y cierre de reparabilidad</h3></div>",
+   "appearance": "field-list",
+   "relevant": "${estado_colapso}!='total' and (${eva_clasif_habitabilidad}='uso_restringido' or (${gate_evaluacion}='no' and ${modulo_continuar}='reparabilidad'))",
+   "body::esri:style": "backgroundColor=\"#FFF7DE\" borderColor=\"#FEC82F\""
+  },
+  {
+   "type": "note",
+   "name": "rep_res_cab",
+   "label": "<div style=\"background-color:#FFF7DE; border-left:6px solid #FEC82F; padding:12px; border-radius:6px; color:#1D1D1B;\"><b>Resumen de cantidades a reparar</b><br>Total = dimensión registrada &times; número de elementos con esas características.</div>",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "note",
+   "name": "rep_res_muro",
+   "label": "<b>Muros divisorios:</b> <font color=\"#005187\" size=\"4\">${rep_muro_total} m²</font> en ${rep_muro_elementos} muro(s), espesor ${rep_muro_espesor} cm.",
+   "relevant": "${rep_muro_dano}='si'",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "note",
+   "name": "rep_res_panete_a",
+   "label": "<b>Pañete (por área):</b> <font color=\"#005187\" size=\"4\">${rep_panete_total_area} m²</font> en ${rep_Panete_elementos} zona(s).",
+   "relevant": "${rep_Panete_dano}='si' and ${rep_Panete_tipo}='area'",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "note",
+   "name": "rep_res_panete_l",
+   "label": "<b>Pañete (lineal):</b> <font color=\"#005187\" size=\"4\">${rep_panete_total_long} m</font> en ${rep_Panete_elementos} zona(s).",
+   "relevant": "${rep_Panete_dano}='si' and ${rep_Panete_tipo}='lineal'",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "note",
+   "name": "rep_res_col_a",
+   "label": "<b>Columna (por área):</b> <font color=\"#005187\" size=\"4\">${rep_col_total_area} m²</font> en ${rep_col_elementos} zona(s).",
+   "relevant": "${rep_Panete_dano}='si' and ${rep_Panete_tipo}='area'",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "note",
+   "name": "rep_res_col_l",
+   "label": "<b>Columna (lineal):</b> <font color=\"#005187\" size=\"4\">${rep_col_total_long} m</font> en ${rep_col_elementos} zona(s).",
+   "relevant": "${rep_Panete_dano}='si' and ${rep_Panete_tipo}='lineal'",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "note",
+   "name": "rep_res_ven",
+   "label": "<b>Ventanas:</b> <font color=\"#005187\" size=\"4\">${rep_ven_total} m²</font> en ${rep_ven_elementos} ventana(s).",
+   "relevant": "${rep_ven_dano}='si'",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "note",
+   "name": "rep_res_din",
+   "label": "<b>Dinteles:</b> <font color=\"#005187\" size=\"4\">${rep_din_total} m</font> lineales en ${rep_din_elementos} dintel(es).",
+   "relevant": "${rep_din_dano}='si'",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "note",
+   "name": "rep_res_nada",
+   "label": "<font color=\"#3F3C3B\">No se registró daño reparable en ningún elemento.</font>",
+   "relevant": "${rep_muro_dano}!='si' and ${rep_Panete_dano}!='si' and ${rep_col_dano}!='si' and ${rep_ven_dano}!='si' and ${rep_din_dano}!='si'",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "note",
+   "name": "rep_nota_demoler",
+   "label": "<div style=\"background-color:#FFF7DE; border-left:6px solid #FEC82F; padding:12px; border-radius:6px; color:#1D1D1B;\"><b>Decisión sobre demolición</b><br>Con base en el daño registrado, indique si la edificación debe demolerse. Si responde que sí, se abrirá el módulo de Demolición y escombros.</div>",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "select_one si_no",
+   "name": "rep_demoler",
+   "label": "¿La edificación debe demolerse?",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "c0_estado",
+   "label": "<div style=\"background-color:#005187; color:#FFFFFF; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">D. Demolición y escombros - estado del sitio</h3></div>",
+   "appearance": "field-list",
+   "relevant": "(${estado_colapso}='total' or ${eva_clasif_habitabilidad}='no_habitable' or ${rep_demoler}='si' or (${gate_evaluacion}='no' and ${modulo_continuar}='demolicion'))",
+   "body::esri:style": "backgroundColor=\"#E0EAF1\" borderColor=\"#005187\""
+  },
+  {
+   "type": "note",
+   "name": "esc_nota_intro",
+   "label": "<b>Módulo de Demolición y escombros</b><br>Estimación del volumen de escombros y condiciones de acceso para maquinaria.",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "select_one si_no",
+   "name": "esc_asbesto",
+   "label": "¿Hay evidencia clara de asbesto?",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "select_one si_no",
+   "name": "esc_retirados",
+   "label": "¿Ya se retiraron todos los escombros del sitio?",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "image",
+   "name": "esc_foto_sitio_limpio",
+   "label": "Fotografía del sitio limpio",
+   "required": "yes",
+   "relevant": "${esc_retirados}='si'"
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "d2_demolicion",
+   "label": "<div style=\"background-color:#005187; color:#FFFFFF; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">D.2. Demolición</h3></div>",
+   "appearance": "field-list",
+   "relevant": "(${estado_colapso}='total' or ${eva_clasif_habitabilidad}='no_habitable' or ${rep_demoler}='si' or (${gate_evaluacion}='no' and ${modulo_continuar}='demolicion')) and ${esc_retirados}='no' and ${estado_colapso}!='total'",
+   "body::esri:style": "backgroundColor=\"#E0EAF1\" borderColor=\"#005187\""
+  },
+  {
+   "type": "note",
+   "name": "dem_res_cab",
+   "label": "<div style=\"background-color:#E0EAF1; border-left:6px solid #005187; padding:12px; border-radius:6px; color:#003A61;\"><b>Resumen de la edificación</b><br><b>Estado de colapso:</b> ${estado_colapso}<br><b>Inclinación evidente:</b> ${inclinacion}<br><b>Número de pisos:</b> ${num_pisos}<br><b>Número de sótanos:</b> ${num_sotanos}</div>",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "decimal",
+   "name": "dem_area_huella",
+   "label": "Área de la huella de la construcción (m²)",
+   "hint": "Se prellena con el área de la capa base o con frente por fondo. Corrija si es necesario.",
+   "required": "yes",
+   "default": "if(${area_huella_mapa} > 0, ${area_huella_mapa}, ${area_huella_campo})",
+   "constraint": ". > 0",
+   "constraint_message": "Debe ser mayor que cero"
+  },
+  {
+   "type": "calculate",
+   "name": "dem_volumen",
+   "calculation": "round(${num_pisos} * ${dem_area_huella} * 2.6 * 0.3, 2)",
+   "bind::esri:fieldType": "esriFieldTypeDouble"
+  },
+  {
+   "type": "note",
+   "name": "dem_nota_volumen",
+   "label": "<div style=\"background-color:#E0EAF1; border-left:6px solid #005187; padding:12px; border-radius:6px; color:#003A61;\"><b>Volumen estimado de escombros</b><br>Número de pisos &times; área de huella &times; 2,6 &times; 0,3<br>${num_pisos} &times; ${dem_area_huella} m² &times; 2,6 &times; 0,3 = <font color=\"#005187\" size=\"4\">${dem_volumen} m³</font></div>",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "select_one urgencia_demolicion",
+   "name": "dem_urgencia",
+   "label": "Urgencia de la demolición",
+   "appearance": "horizontal",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "select_one tipo_demolicion",
+   "name": "dem_tipo",
+   "label": "Tipo de demolición",
+   "appearance": "minimal",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "integer",
+   "name": "esc_personas_desaparecidas",
+   "label": "Personas aún desaparecidas dentro de la edificación",
+   "required": "yes",
+   "constraint": ". >= 0",
+   "constraint_message": "Debe ser mayor o igual a 0"
+  },
+  {
+   "type": "text",
+   "name": "dem_notas",
+   "label": "Observaciones sobre la demolición",
+   "appearance": "multiline",
+   "bind::esri:fieldLength": 1000
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "d3_escombros",
+   "label": "<div style=\"background-color:#005187; color:#FFFFFF; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">D.3. Escombros - colapso total</h3></div>",
+   "appearance": "field-list",
+   "relevant": "(${estado_colapso}='total' or ${eva_clasif_habitabilidad}='no_habitable' or ${rep_demoler}='si' or (${gate_evaluacion}='no' and ${modulo_continuar}='demolicion')) and ${esc_retirados}='no' and ${estado_colapso}='total'",
+   "body::esri:style": "backgroundColor=\"#E0EAF1\" borderColor=\"#005187\""
+  },
+  {
+   "type": "note",
+   "name": "esc_res_cab",
+   "label": "<div style=\"background-color:#E0EAF1; border-left:6px solid #005187; padding:12px; border-radius:6px; color:#003A61;\"><b>Estado de colapso:</b> ${estado_colapso}<br>Estime el área cubierta por los escombros y su altura promedio. El volumen se calcula automáticamente.</div>",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "decimal",
+   "name": "esc_area",
+   "label": "Área aproximada cubierta por escombros (m²)",
+   "required": "yes",
+   "constraint": ". > 0",
+   "constraint_message": "Debe ser mayor que cero"
+  },
+  {
+   "type": "decimal",
+   "name": "esc_altura",
+   "label": "Altura promedio de los escombros (m)",
+   "required": "yes",
+   "constraint": ". > 0 and . <= 50",
+   "constraint_message": "Ingrese un valor entre 0 y 50 m"
+  },
+  {
+   "type": "calculate",
+   "name": "esc_volumen",
+   "calculation": "round(${esc_area} * ${esc_altura}, 2)",
+   "bind::esri:fieldType": "esriFieldTypeDouble"
+  },
+  {
+   "type": "note",
+   "name": "esc_nota_volumen",
+   "label": "<div style=\"background-color:#E0EAF1; border-left:6px solid #005187; padding:12px; border-radius:6px; color:#003A61;\"><b>Volumen aproximado de escombros</b><br>${esc_area} m² &times; ${esc_altura} m = <font color=\"#005187\" size=\"4\">${esc_volumen} m³</font></div>",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "integer",
+   "name": "esc_personas_desaparecidas_t",
+   "label": "Personas aún desaparecidas entre los escombros",
+   "required": "yes",
+   "constraint": ". >= 0",
+   "constraint_message": "Debe ser mayor o igual a 0"
+  },
+  {
+   "type": "select_one si_no",
+   "name": "esc_excavadoras",
+   "label": "¿Se están adelantando trabajos de recolección de escombros en este punto?",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "note",
+   "name": "esc_nota_huella",
+   "label": "<div style=\"background-color:#E0EAF1; border-left:6px solid #005187; padding:12px; border-radius:6px; color:#003A61;\"><b>Dibuje la huella de los escombros sobre la imagen.</b></div>",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "begin repeat",
+   "name": "esc_huella_escombros",
+   "label": "Huella de los escombros",
+   "repeat_count": "1"
+  },
+  {
+   "type": "geoshape",
+   "name": "esc_escombros_geom",
+   "label": "Dibuje la huella de los escombros en el mapa",
+   "required": "yes",
+   "body::esri:style": "map=\"Imagery Hybrid\""
+  },
+  {
+   "type": "calculate",
+   "name": "esc_escombros_area",
+   "calculation": "round(area(${esc_escombros_geom}),0)",
+   "bind::esri:fieldType": "esriFieldTypeDouble"
+  },
+  {
+   "type": "note",
+   "name": "esc_escombros_nota",
+   "label": "<b>Área dibujada:</b> ${esc_escombros_area} m²",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "end repeat"
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "c2_acceso",
+   "label": "<div style=\"background-color:#005187; color:#FFFFFF; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">D.4. Acceso y entorno</h3></div>",
+   "appearance": "field-list",
+   "relevant": "(${estado_colapso}='total' or ${eva_clasif_habitabilidad}='no_habitable' or ${rep_demoler}='si' or (${gate_evaluacion}='no' and ${modulo_continuar}='demolicion')) and ${esc_retirados}='no'",
+   "body::esri:style": "backgroundColor=\"#E0EAF1\" borderColor=\"#005187\""
+  },
+  {
+   "type": "select_one frentes_via",
+   "name": "esc_frentes_via",
+   "label": "Número de fachadas que dan a una vía",
+   "appearance": "horizontal",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "select_one ancho_via",
+   "name": "esc_ancho_via",
+   "label": "Vía más ancha para acceder con maquinaria",
+   "appearance": "minimal",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "select_one si_no",
+   "name": "esc_acopio",
+   "label": "¿Existe la posibilidad de acopio de escombros?",
+   "appearance": "minimal",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "select_one dist_adyacentes",
+   "name": "esc_dist_adyacentes",
+   "label": "Distancia mínima a edificaciones adyacentes",
+   "appearance": "minimal",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "select_one si_no",
+   "name": "esc_campamento",
+   "label": "¿Hay un campamento o alojamiento temporal justo al lado?",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "select_one si_no",
+   "name": "esc_talud",
+   "label": "¿Hay un talud pronunciado justo al lado?",
+   "appearance": "horizontal-compact",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "select_one urgencia_escombros",
+   "name": "esc_urgencia",
+   "label": "Urgencia para el retiro de los escombros",
+   "appearance": "minimal",
+   "required": "yes",
+   "bind::esri:fieldLength": 30
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "c3_fotos",
+   "label": "<div style=\"background-color:#005187; color:#FFFFFF; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">D.5. Registro fotográfico</h3></div>",
+   "appearance": "field-list",
+   "relevant": "(${estado_colapso}='total' or ${eva_clasif_habitabilidad}='no_habitable' or ${rep_demoler}='si' or (${gate_evaluacion}='no' and ${modulo_continuar}='demolicion')) and ${esc_retirados}='no'",
+   "body::esri:style": "backgroundColor=\"#E0EAF1\" borderColor=\"#005187\""
+  },
+  {
+   "type": "image",
+   "name": "esc_foto_escombros",
+   "label": "Fotografía de los escombros desde lejos",
+   "required": "yes",
+   "relevant": "${estado_colapso}='total'"
+  },
+  {
+   "type": "image",
+   "name": "esc_foto_dano",
+   "label": "Fotografías del daño estructural",
+   "hint": "Máximo 8.",
+   "appearance": "multiline",
+   "required": "yes",
+   "constraint": "count-selected(.)<=8",
+   "constraint_message": "Puede cargar máximo 8 fotografías",
+   "relevant": "${estado_colapso}!='total'"
+  },
+  {
+   "type": "text",
+   "name": "esc_nota_dano",
+   "label": "Descripción de la tipología y la gravedad del daño",
+   "appearance": "multiline",
+   "required": "yes",
+   "relevant": "${estado_colapso}!='total'",
+   "bind::esri:fieldLength": 1000
+  },
+  {
+   "type": "text",
+   "name": "esc_notas",
+   "label": "Otras observaciones de escombros",
+   "appearance": "multiline",
+   "bind::esri:fieldLength": 1000
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "z1_cierre",
+   "label": "<div style=\"background-color:#3F3C3B; color:#FFFFFF; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">8. Cierre</h3></div>",
+   "appearance": "field-list",
+   "body::esri:style": "backgroundColor=\"#ECEBEC\" borderColor=\"#3F3C3B\""
+  },
+  {
+   "type": "text",
+   "name": "comentarios_finales",
+   "label": "Comentarios finales",
+   "appearance": "multiline predictivetext",
+   "bind::esri:fieldLength": 2000
+  },
+  {
+   "type": "image",
+   "name": "evaluador_firma",
+   "label": "Firma del evaluador",
+   "appearance": "signature",
+   "required": "yes"
+  },
+  {
+   "type": "select_one confirmacion",
+   "name": "confirmacion",
+   "label": "Confirmo que revisé el formulario y que la información está completa y es correcta.",
+   "required": "yes",
+   "bind::esri:fieldLength": 25
+  },
+  {
+   "type": "end group"
+  },
+  {
+   "type": "begin group",
+   "name": "z2_resumen",
+   "label": "<div style=\"background-color:#3F3C3B; color:#FFFFFF; padding:12px; border-radius:8px; text-align:center;\"><h3 style=\"margin:0;\">9. Resumen de la visita</h3></div>",
+   "appearance": "field-list",
+   "body::esri:style": "backgroundColor=\"#ECEBEC\" borderColor=\"#3F3C3B\""
+  },
+  {
+   "type": "calculate",
+   "name": "fecha_texto",
+   "calculation": "format-date-time(${fecha_hora_inspeccion}, '%d/%m/%Y %H:%M')",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "calculate",
+   "name": "volumen_final",
+   "calculation": "if(${estado_colapso}='total', ${esc_volumen}, ${dem_volumen})",
+   "bind::esri:fieldType": "esriFieldTypeDouble"
+  },
+  {
+   "type": "note",
+   "name": "res_cab",
+   "label": "<b><font color=\"#005187\">RESUMEN DE LA VISITA</font></b>",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "note",
+   "name": "res_datos",
+   "label": "<b>Código de registro:</b> ${cod_registro}<br><b>Dirección:</b> ${direccion}<br><b>Barrio / Vereda:</b> ${barrio_vereda}<br><b>Municipio:</b> ${municipio}<br><b>Fecha y hora:</b> ${fecha_texto}",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "note",
+   "name": "res_verde",
+   "label": "<b><font color=\"#1B7F3B\">HABITABLE (VERDE)</font></b><br><font color=\"#595959\">La edificación puede seguir siendo ocupada.</font>",
+   "relevant": "${eva_clasif_habitabilidad}='habitable'",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "note",
+   "name": "res_amarillo",
+   "label": "<b><font color=\"#C77700\">USO RESTRINGIDO (AMARILLO)</font></b><br><font color=\"#595959\">La ocupación está limitada. Atienda las restricciones indicadas.</font>",
+   "relevant": "${eva_clasif_habitabilidad}='uso_restringido'",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "note",
+   "name": "res_rojo",
+   "label": "<b><font color=\"#C62828\">NO HABITABLE (ROJO)</font></b><br><font color=\"#595959\">La edificación NO debe ser ocupada.</font>",
+   "relevant": "${eva_clasif_habitabilidad}='no_habitable'",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "note",
+   "name": "res_escombros",
+   "label": "<b>Demolición y escombros:</b> volumen estimado ${volumen_final} m³.",
+   "relevant": "${volumen_final} > 0",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "note",
+   "name": "res_aviso_enviar",
+   "label": "<b><font color=\"#C62828\" size=\"4\">IMPORTANTE</font></b><br><b><font color=\"#C62828\">Revise el resumen y <u>envíe el formulario</u>.</font></b><br><font color=\"#C62828\">Si no lo envía, la visita no queda registrada.</font>",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "note",
+   "name": "res_alcance",
+   "label": "<font color=\"#595959\">Evaluación rápida por inspección visual en el marco de la atención de la emergencia. No constituye un estudio de vulnerabilidad estructural ni un concepto técnico definitivo, y puede modificarse ante una evaluación posterior.</font>",
+   "repeat_count": "null",
+   "bind::esri:fieldType": "null"
+  },
+  {
+   "type": "end group"
+  }
+ ],
+ "choices": [
+  {
+   "list_name": "motivos",
+   "name": "ya_levantado",
+   "label": "Ya se había levantado anteriormente"
+  },
+  {
+   "list_name": "motivos",
+   "name": "no_requiere",
+   "label": "No requiere ese formulario"
+  },
+  {
+   "list_name": "si_no",
+   "name": "si",
+   "label": "Sí"
+  },
+  {
+   "list_name": "si_no",
+   "name": "no",
+   "label": "No"
+  },
+  {
+   "list_name": "si_no_noclaro",
+   "name": "si",
+   "label": "Sí"
+  },
+  {
+   "list_name": "si_no_noclaro",
+   "name": "no",
+   "label": "No"
+  },
+  {
+   "list_name": "si_no_noclaro",
+   "name": "no_claro",
+   "label": "No es claro"
+  },
+  {
+   "list_name": "confirmacion",
+   "name": "si",
+   "label": "Sí, confirmo y estoy listo para enviar"
+  },
+  {
+   "list_name": "tipo_documento",
+   "name": "cc",
+   "label": "Cédula de ciudadanía"
+  },
+  {
+   "list_name": "tipo_documento",
+   "name": "ce",
+   "label": "Cédula de extranjería"
+  },
+  {
+   "list_name": "tipo_documento",
+   "name": "pasaporte",
+   "label": "Pasaporte"
+  },
+  {
+   "list_name": "profesion",
+   "name": "ingeniero_civil",
+   "label": "Ingeniero civil"
+  },
+  {
+   "list_name": "profesion",
+   "name": "arquitecto",
+   "label": "Arquitecto"
+  },
+  {
+   "list_name": "profesion",
+   "name": "ingeniero_catastral",
+   "label": "Ingeniero catastral o topográfico"
+  },
+  {
+   "list_name": "profesion",
+   "name": "tecnologo",
+   "label": "Tecnólogo en construcción"
+  },
+  {
+   "list_name": "profesion",
+   "name": "otra",
+   "label": "Otra"
+  },
+  {
+   "list_name": "departamento",
+   "name": 17,
+   "label": "Caldas"
+  },
+  {
+   "list_name": "departamento",
+   "name": 66,
+   "label": "Risaralda"
+  },
+  {
+   "list_name": "municipio",
+   "name": 66001,
+   "label": "Pereira",
+   "departamento": 66
+  },
+  {
+   "list_name": "municipio",
+   "name": 17001,
+   "label": "Manizales",
+   "departamento": 17
+  },
+  {
+   "list_name": "zona",
+   "name": "urbano",
+   "label": "Urbano"
+  },
+  {
+   "list_name": "zona",
+   "name": "rural",
+   "label": "Rural"
+  },
+  {
+   "list_name": "tipo_edificacion",
+   "name": "publica",
+   "label": "Pública"
+  },
+  {
+   "list_name": "tipo_edificacion",
+   "name": "privada",
+   "label": "Privada"
+  },
+  {
+   "list_name": "uso",
+   "name": "residencial",
+   "label": "Residencial"
+  },
+  {
+   "list_name": "uso",
+   "name": "comercial",
+   "label": "Comercial"
+  },
+  {
+   "list_name": "uso",
+   "name": "educacional",
+   "label": "Educacional"
+  },
+  {
+   "list_name": "uso",
+   "name": "salud",
+   "label": "Salud"
+  },
+  {
+   "list_name": "uso",
+   "name": "hotelero",
+   "label": "Hotelero"
+  },
+  {
+   "list_name": "uso",
+   "name": "oficinas",
+   "label": "Oficinas"
+  },
+  {
+   "list_name": "uso",
+   "name": "institucional",
+   "label": "Institucional"
+  },
+  {
+   "list_name": "uso",
+   "name": "religioso",
+   "label": "Religioso"
+  },
+  {
+   "list_name": "uso",
+   "name": "industrial",
+   "label": "Industrial"
+  },
+  {
+   "list_name": "uso",
+   "name": "bodegas",
+   "label": "Bodegas"
+  },
+  {
+   "list_name": "uso",
+   "name": "estacionamientos",
+   "label": "Estacionamientos"
+  },
+  {
+   "list_name": "uso",
+   "name": "otro",
+   "label": "Otro"
+  },
+  {
+   "list_name": "ano_construccion",
+   "name": "post_2010",
+   "label": "2010 o posterior (NSR-10)"
+  },
+  {
+   "list_name": "ano_construccion",
+   "name": "1998_2009",
+   "label": "1998 a 2009 (NSR-98)"
+  },
+  {
+   "list_name": "ano_construccion",
+   "name": "1984_1997",
+   "label": "1984 a 1997 (CCCSR-84)"
+  },
+  {
+   "list_name": "ano_construccion",
+   "name": "pre_1984",
+   "label": "Anterior a 1984 (sin norma sismo resistente)"
+  },
+  {
+   "list_name": "ano_construccion",
+   "name": "desconocido",
+   "label": "Desconocido"
+  },
+  {
+   "list_name": "material_estructural",
+   "name": "concreto",
+   "label": "Concreto reforzado"
+  },
+  {
+   "list_name": "material_estructural",
+   "name": "mamposteria",
+   "label": "Mampostería"
+  },
+  {
+   "list_name": "material_estructural",
+   "name": "acero",
+   "label": "Acero"
+  },
+  {
+   "list_name": "material_estructural",
+   "name": "madera",
+   "label": "Madera"
+  },
+  {
+   "list_name": "material_estructural",
+   "name": "bahareque_tapia",
+   "label": "Bahareque o tapia"
+  },
+  {
+   "list_name": "material_estructural",
+   "name": "otros",
+   "label": "Otros"
+  },
+  {
+   "list_name": "sistema_estructural",
+   "name": "porticos",
+   "label": "Pórticos",
+   "material": "concreto"
+  },
+  {
+   "list_name": "sistema_estructural",
+   "name": "muros_estructurales",
+   "label": "Muros estructurales",
+   "material": "concreto"
+  },
+  {
+   "list_name": "sistema_estructural",
+   "name": "dual_combinado",
+   "label": "Sistema dual o combinado",
+   "material": "concreto"
+  },
+  {
+   "list_name": "sistema_estructural",
+   "name": "prefabricado",
+   "label": "Prefabricado",
+   "material": "concreto"
+  },
+  {
+   "list_name": "sistema_estructural",
+   "name": "mamp_confinada",
+   "label": "Mampostería confinada",
+   "material": "mamposteria"
+  },
+  {
+   "list_name": "sistema_estructural",
+   "name": "mamp_reforzada",
+   "label": "Mampostería reforzada",
+   "material": "mamposteria"
+  },
+  {
+   "list_name": "sistema_estructural",
+   "name": "mamp_simple",
+   "label": "Mampostería simple",
+   "material": "mamposteria"
+  },
+  {
+   "list_name": "sistema_estructural",
+   "name": "porticos_arriostrados",
+   "label": "Pórticos arriostrados",
+   "material": "acero"
+  },
+  {
+   "list_name": "sistema_estructural",
+   "name": "porticos_no_arriostrados",
+   "label": "Pórticos no arriostrados",
+   "material": "acero"
+  },
+  {
+   "list_name": "sistema_estructural",
+   "name": "acero_otro",
+   "label": "Otro",
+   "material": "acero"
+  },
+  {
+   "list_name": "sistema_estructural",
+   "name": "estructura_madera",
+   "label": "Estructura en madera",
+   "material": "madera"
+  },
+  {
+   "list_name": "sistema_estructural",
+   "name": "estructura_guadua",
+   "label": "Estructura en guadua",
+   "material": "madera"
+  },
+  {
+   "list_name": "sistema_estructural",
+   "name": "muros_bahareque",
+   "label": "Muros en bahareque",
+   "material": "bahareque_tapia"
+  },
+  {
+   "list_name": "sistema_estructural",
+   "name": "muros_tapia",
+   "label": "Muros en tapia",
+   "material": "bahareque_tapia"
+  },
+  {
+   "list_name": "sistema_estructural",
+   "name": "mixto",
+   "label": "Mixto",
+   "material": "otros"
+  },
+  {
+   "list_name": "sistema_estructural",
+   "name": "ninguno",
+   "label": "Ninguno",
+   "material": "otros"
+  },
+  {
+   "list_name": "material_entrepiso",
+   "name": "concreto",
+   "label": "Concreto reforzado"
+  },
+  {
+   "list_name": "material_entrepiso",
+   "name": "acero",
+   "label": "Acero"
+  },
+  {
+   "list_name": "material_entrepiso",
+   "name": "madera",
+   "label": "Madera"
+  },
+  {
+   "list_name": "material_entrepiso",
+   "name": "otro",
+   "label": "Otro"
+  },
+  {
+   "list_name": "sistema_entrepiso",
+   "name": "placa_maciza",
+   "label": "Placa maciza",
+   "material": "concreto"
+  },
+  {
+   "list_name": "sistema_entrepiso",
+   "name": "placa_aligerada",
+   "label": "Placa aligerada",
+   "material": "concreto"
+  },
+  {
+   "list_name": "sistema_entrepiso",
+   "name": "steeldeck",
+   "label": "Steeldeck / losacero",
+   "material": "acero"
+  },
+  {
+   "list_name": "sistema_entrepiso",
+   "name": "vigas_con_conectores",
+   "label": "Vigas con conectores",
+   "material": "acero"
+  },
+  {
+   "list_name": "sistema_entrepiso",
+   "name": "vigas_sin_conectores",
+   "label": "Vigas sin conectores",
+   "material": "acero"
+  },
+  {
+   "list_name": "sistema_entrepiso",
+   "name": "vigas_madera",
+   "label": "Vigas",
+   "material": "madera"
+  },
+  {
+   "list_name": "sistema_entrepiso",
+   "name": "cerchas_madera",
+   "label": "Cerchas",
+   "material": "madera"
+  },
+  {
+   "list_name": "sistema_entrepiso",
+   "name": "mixto",
+   "label": "Mixto",
+   "material": "otro"
+  },
+  {
+   "list_name": "sistema_entrepiso",
+   "name": "entrepiso_otro",
+   "label": "Otro",
+   "material": "otro"
+  },
+  {
+   "list_name": "material_cubierta",
+   "name": "concreto",
+   "label": "Concreto reforzado"
+  },
+  {
+   "list_name": "material_cubierta",
+   "name": "acero",
+   "label": "Acero"
+  },
+  {
+   "list_name": "material_cubierta",
+   "name": "madera",
+   "label": "Madera"
+  },
+  {
+   "list_name": "material_cubierta",
+   "name": "otro",
+   "label": "Otro"
+  },
+  {
+   "list_name": "soporte_cubierta",
+   "name": "vigas_concreto",
+   "label": "Vigas de concreto",
+   "material": "concreto"
+  },
+  {
+   "list_name": "soporte_cubierta",
+   "name": "placa_maciza_aligerada",
+   "label": "Placa maciza o aligerada",
+   "material": "concreto"
+  },
+  {
+   "list_name": "soporte_cubierta",
+   "name": "vigas_acero",
+   "label": "Vigas de acero",
+   "material": "acero"
+  },
+  {
+   "list_name": "soporte_cubierta",
+   "name": "cerchas_acero",
+   "label": "Cerchas de acero",
+   "material": "acero"
+  },
+  {
+   "list_name": "soporte_cubierta",
+   "name": "vigas_madera",
+   "label": "Vigas de madera",
+   "material": "madera"
+  },
+  {
+   "list_name": "soporte_cubierta",
+   "name": "cerchas_madera",
+   "label": "Cerchas de madera",
+   "material": "madera"
+  },
+  {
+   "list_name": "soporte_cubierta",
+   "name": "cubierta_otro",
+   "label": "Otro",
+   "material": "otro"
+  },
+  {
+   "list_name": "tipo_cubierta",
+   "name": "teja_zinc",
+   "label": "Teja de zinc"
+  },
+  {
+   "list_name": "tipo_cubierta",
+   "name": "teja_barro",
+   "label": "Teja de barro"
+  },
+  {
+   "list_name": "tipo_cubierta",
+   "name": "teja_fibrocemento",
+   "label": "Teja de fibrocemento"
+  },
+  {
+   "list_name": "tipo_cubierta",
+   "name": "teja_plastica",
+   "label": "Teja plástica"
+  },
+  {
+   "list_name": "tipo_cubierta",
+   "name": "plastico_paja",
+   "label": "Plástico / paja"
+  },
+  {
+   "list_name": "tipo_cubierta",
+   "name": "otro",
+   "label": "Otro"
+  },
+  {
+   "list_name": "muros",
+   "name": "ladrillo_hueco",
+   "label": "Mampostería de ladrillo hueco de arcilla"
+  },
+  {
+   "list_name": "muros",
+   "name": "ladrillo_macizo",
+   "label": "Mampostería de ladrillo macizo de arcilla"
+  },
+  {
+   "list_name": "muros",
+   "name": "bloque_concreto",
+   "label": "Mampostería de bloque de concreto"
+  },
+  {
+   "list_name": "muros",
+   "name": "piedra",
+   "label": "Mampostería en piedra"
+  },
+  {
+   "list_name": "muros",
+   "name": "drywall",
+   "label": "Perfiles metálicos y placas de yeso (drywall)"
+  },
+  {
+   "list_name": "muros",
+   "name": "madera_guadua",
+   "label": "Madera o guadua"
+  },
+  {
+   "list_name": "muros",
+   "name": "otro",
+   "label": "Otro"
+  },
+  {
+   "list_name": "ocupacion",
+   "name": "ocupada",
+   "label": "Ocupada"
+  },
+  {
+   "list_name": "ocupacion",
+   "name": "desocupada",
+   "label": "Desocupada"
+  },
+  {
+   "list_name": "tipo_inspeccion",
+   "name": "exterior",
+   "label": "Exterior solamente"
+  },
+  {
+   "list_name": "tipo_inspeccion",
+   "name": "completa",
+   "label": "Completa"
+  },
+  {
+   "list_name": "tipo_amenaza",
+   "name": "sismo",
+   "label": "Sismo"
+  },
+  {
+   "list_name": "tipo_amenaza",
+   "name": "movimiento_masa",
+   "label": "Movimiento en masa"
+  },
+  {
+   "list_name": "tipo_amenaza",
+   "name": "avenida_torrencial",
+   "label": "Avenida torrencial"
+  },
+  {
+   "list_name": "tipo_amenaza",
+   "name": "inundacion",
+   "label": "Inundación"
+  },
+  {
+   "list_name": "tipo_amenaza",
+   "name": "erupcion_volcanica",
+   "label": "Erupción volcánica"
+  },
+  {
+   "list_name": "tipo_amenaza",
+   "name": "incendio_estructural",
+   "label": "Incendio estructural"
+  },
+  {
+   "list_name": "tipo_amenaza",
+   "name": "vendaval",
+   "label": "Vendaval"
+  },
+  {
+   "list_name": "tipo_amenaza",
+   "name": "otro",
+   "label": "Otro"
+  },
+  {
+   "list_name": "morfologia",
+   "name": "divisoria",
+   "label": "Divisoria"
+  },
+  {
+   "list_name": "morfologia",
+   "name": "ladera",
+   "label": "Ladera"
+  },
+  {
+   "list_name": "morfologia",
+   "name": "pie_ladera",
+   "label": "Pie de ladera"
+  },
+  {
+   "list_name": "morfologia",
+   "name": "valle",
+   "label": "Valle"
+  },
+  {
+   "list_name": "morfologia",
+   "name": "borde_rio",
+   "label": "Borde de río"
+  },
+  {
+   "list_name": "morfologia",
+   "name": "talud",
+   "label": "Talud"
+  },
+  {
+   "list_name": "morfologia",
+   "name": "otro",
+   "label": "Otro"
+  },
+  {
+   "list_name": "nivel_nlms",
+   "name": "n",
+   "label": "N"
+  },
+  {
+   "list_name": "nivel_nlms",
+   "name": "l",
+   "label": "L"
+  },
+  {
+   "list_name": "nivel_nlms",
+   "name": "m",
+   "label": "M"
+  },
+  {
+   "list_name": "nivel_nlms",
+   "name": "s",
+   "label": "S"
+  },
+  {
+   "list_name": "habitabilidad",
+   "name": "habitable",
+   "label": "<font color=\"#1B7F3B\"><b>Habitable (Verde)</b></font>"
+  },
+  {
+   "list_name": "habitabilidad",
+   "name": "uso_restringido",
+   "label": "<font color=\"#C77700\"><b>Uso restringido (Amarillo)</b></font>"
+  },
+  {
+   "list_name": "habitabilidad",
+   "name": "no_habitable",
+   "label": "<font color=\"#C62828\"><b>No habitable (Rojo)</b></font>"
+  },
+  {
+   "list_name": "nivel_dano",
+   "name": "ninguno_menor",
+   "label": "Ninguno / Menor"
+  },
+  {
+   "list_name": "nivel_dano",
+   "name": "moderado",
+   "label": "Moderado"
+  },
+  {
+   "list_name": "nivel_dano",
+   "name": "severo",
+   "label": "Severo"
+  },
+  {
+   "list_name": "eval_adicional",
+   "name": "ninguna",
+   "label": "Ninguna"
+  },
+  {
+   "list_name": "eval_adicional",
+   "name": "estructural",
+   "label": "Estructural"
+  },
+  {
+   "list_name": "eval_adicional",
+   "name": "geotecnica",
+   "label": "Geotécnica"
+  },
+  {
+   "list_name": "eval_adicional",
+   "name": "empresa_servicios",
+   "label": "Empresa prestadora de servicios públicos"
+  },
+  {
+   "list_name": "medidas",
+   "name": "ninguna",
+   "label": "Ninguna"
+  },
+  {
+   "list_name": "medidas",
+   "name": "evacuar_edificacion",
+   "label": "Evacuar edificación"
+  },
+  {
+   "list_name": "medidas",
+   "name": "evacuar_aledanas",
+   "label": "Evacuar edificaciones aledañas"
+  },
+  {
+   "list_name": "medidas",
+   "name": "desconectar_servicios",
+   "label": "Desconectar servicios"
+  },
+  {
+   "list_name": "medidas",
+   "name": "apuntalar",
+   "label": "Apuntalar"
+  },
+  {
+   "list_name": "medidas",
+   "name": "demoler_elementos",
+   "label": "Demoler elementos en peligro de caer"
+  },
+  {
+   "list_name": "medidas",
+   "name": "restringir_paso",
+   "label": "Restringir paso"
+  },
+  {
+   "list_name": "medidas",
+   "name": "estabilizar_taludes",
+   "label": "Estabilizar taludes"
+  },
+  {
+   "list_name": "medidas",
+   "name": "drenar_agua",
+   "label": "Drenar agua"
+  },
+  {
+   "list_name": "medidas",
+   "name": "limpiar_cubierta",
+   "label": "Limpiar material acumulado en cubierta"
+  },
+  {
+   "list_name": "medidas",
+   "name": "cambiar_cubierta",
+   "label": "Cambiar teja o material de cubierta"
+  },
+  {
+   "list_name": "medidas",
+   "name": "otro",
+   "label": "Otro"
+  },
+  {
+   "list_name": "servicios",
+   "name": "energia",
+   "label": "Energía"
+  },
+  {
+   "list_name": "servicios",
+   "name": "agua",
+   "label": "Agua"
+  },
+  {
+   "list_name": "servicios",
+   "name": "gas",
+   "label": "Gas"
+  },
+  {
+   "list_name": "paso",
+   "name": "peatonal",
+   "label": "Peatonal"
+  },
+  {
+   "list_name": "paso",
+   "name": "vehicular",
+   "label": "Vehicular"
+  },
+  {
+   "list_name": "intervencion",
+   "name": "mejoramiento",
+   "label": "Reparaciones locativas (reparaciones puntuales)"
+  },
+  {
+   "list_name": "intervencion",
+   "name": "reconstruccion",
+   "label": "Reconstrucción (obra mayor o vivienda nueva)"
+  },
+  {
+   "list_name": "intervencion",
+   "name": "ninguna",
+   "label": "No requiere materiales"
+  },
+  {
+   "list_name": "elementos",
+   "name": "muros",
+   "label": "Muros"
+  },
+  {
+   "list_name": "elementos",
+   "name": "cubierta",
+   "label": "Cubierta"
+  },
+  {
+   "list_name": "elementos",
+   "name": "est_cubierta",
+   "label": "Estructura de cubierta"
+  },
+  {
+   "list_name": "elementos",
+   "name": "placa",
+   "label": "Placa"
+  },
+  {
+   "list_name": "material_muro",
+   "name": "bloque_concreto",
+   "label": "Bloque de concreto"
+  },
+  {
+   "list_name": "material_muro",
+   "name": "ladrillo_hueco",
+   "label": "Ladrillo hueco de arcilla"
+  },
+  {
+   "list_name": "material_muro",
+   "name": "ladrillo_macizo",
+   "label": "Ladrillo macizo de arcilla"
+  },
+  {
+   "list_name": "material_muro",
+   "name": "drywall",
+   "label": "Perfiles metálicos y placas de yeso (drywall)"
+  },
+  {
+   "list_name": "material_muro",
+   "name": "otro",
+   "label": "Otro"
+  },
+  {
+   "list_name": "acabado_muro",
+   "name": "panete_ambos",
+   "label": "Pañete por ambas caras"
+  },
+  {
+   "list_name": "acabado_muro",
+   "name": "ceramica_ambos",
+   "label": "Enchape cerámico por ambas caras"
+  },
+  {
+   "list_name": "acabado_muro",
+   "name": "mixto",
+   "label": "Una cara pañetada y la otra enchapada"
+  },
+  {
+   "list_name": "acabado_muro",
+   "name": "sin_acabado",
+   "label": "Sin acabado"
+  },
+  {
+   "list_name": "frentes_via",
+   "name": "1",
+   "label": "1"
+  },
+  {
+   "list_name": "frentes_via",
+   "name": "2",
+   "label": "2"
+  },
+  {
+   "list_name": "frentes_via",
+   "name": "3",
+   "label": "3"
+  },
+  {
+   "list_name": "frentes_via",
+   "name": "4",
+   "label": "4"
+  },
+  {
+   "list_name": "ancho_via",
+   "name": "menor_4",
+   "label": "Menos de 4 m"
+  },
+  {
+   "list_name": "ancho_via",
+   "name": "mayor_4",
+   "label": "4 m o más"
+  },
+  {
+   "list_name": "dist_adyacentes",
+   "name": "menor_1",
+   "label": "Menos de 1 m"
+  },
+  {
+   "list_name": "dist_adyacentes",
+   "name": "entre_1_4",
+   "label": "Entre 1 y 4 m"
+  },
+  {
+   "list_name": "dist_adyacentes",
+   "name": "mayor_4",
+   "label": "Más de 4 m"
+  },
+  {
+   "list_name": "estado_colapso",
+   "name": "ninguno",
+   "label": "En pie - sin colapso"
+  },
+  {
+   "list_name": "estado_colapso",
+   "name": "parcial",
+   "label": "Parcialmente colapsada"
+  },
+  {
+   "list_name": "estado_colapso",
+   "name": "total",
+   "label": "Totalmente colapsada"
+  },
+  {
+   "list_name": "tipo_panete_col_col",
+   "name": "area",
+   "label": "Por área (parche o zona amplia)"
+  },
+  {
+   "list_name": "tipo_panete_col_col",
+   "name": "lineal",
+   "label": "Lineal (fisura)"
+  },
+  {
+   "list_name": "entidad",
+   "name": "miyamoto",
+   "label": "Miyamoto"
+  },
+  {
+   "list_name": "entidad",
+   "name": "alcaldia",
+   "label": "Alcaldía local"
+  },
+  {
+   "list_name": "entidad",
+   "name": "ungrd",
+   "label": "UNGRD"
+  },
+  {
+   "list_name": "entidad",
+   "name": "otra",
+   "label": "Otra"
+  },
+  {
+   "list_name": "urgencia_demolicion",
+   "name": "menor_24h",
+   "label": "Alta - Menos de 24 horas"
+  },
+  {
+   "list_name": "urgencia_demolicion",
+   "name": "24_48h",
+   "label": "Media - Entre 24 y 48 horas"
+  },
+  {
+   "list_name": "urgencia_demolicion",
+   "name": "mayor_48h",
+   "label": "Baja - Más de 48 horas"
+  },
+  {
+   "list_name": "tipo_demolicion",
+   "name": "baja",
+   "label": "Baja - algunos elementos a demoler"
+  },
+  {
+   "list_name": "tipo_demolicion",
+   "name": "media",
+   "label": "Media - demolición parcial"
+  },
+  {
+   "list_name": "tipo_demolicion",
+   "name": "total",
+   "label": "Total - demolición completa"
+  },
+  {
+   "list_name": "urgencia_escombros",
+   "name": "espacio_publico",
+   "label": "Están en el espacio público"
+  },
+  {
+   "list_name": "urgencia_escombros",
+   "name": "afecta_vecino",
+   "label": "Están afectando a un vecino"
+  },
+  {
+   "list_name": "urgencia_escombros",
+   "name": "contenidos",
+   "label": "Están contenidos dentro del propio lote"
+  },
+  {
+   "list_name": "modulos_rd",
+   "name": "reparabilidad",
+   "label": "Reparabilidad"
+  },
+  {
+   "list_name": "modulos_rd",
+   "name": "demolicion",
+   "label": "Demolición y escombros"
+  }
+ ],
+ "settings": [
+  {
+   "form_title": "Encuesta integral",
+   "form_id": "eval_post_sismo_col",
+   "instance_name": "concat(${cod_registro}, ' | ', ${direccion}, ' | ', ${municipio})",
+   "default_language": "español (es)",
+   "version": "4.0.0",
+   "style": "pages",
+   "namespaces": "esri=\"https://esri.com/xforms\""
+  }
+ ]
+}

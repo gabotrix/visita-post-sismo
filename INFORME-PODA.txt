@@ -1,0 +1,50 @@
+=== PODA ===
+  20  foto o detalle fundido en la escala de daño
+      eva_foto_columnas, eva_foto_muros_portantes, eva_foto_vigas, eva_foto_nodos, eva_foto_riostras, eva_foto_entrepiso, eva_foto_muros_fachada, eva_foto_muros_div, eva_foto_ventanales, eva_foto_cielo_raso, eva_foto_cubiertas, eva_foto_escaleras, eva_foto_ascensores, eva_foto_balcones, eva_foto_tanques, eva_foto_gas, eva_foto_electricas, eva_foto_acueducto, eva_dano_otros_desc, eva_foto_otros
+  10  sin mapa (bloque repetible de dibujo)
+      huella_coincide, nota_huella, huella_construccion, huella_geom, huella_area, nota_huella_area, esc_huella_escombros, esc_escombros_geom, esc_escombros_area, esc_escombros_nota
+   9  campo "¿cuál?" fundido en su propia opción
+      uso_otro, sist_estructural_otro, sist_entrepiso_otro, sop_cubierta_otro, tipo_cubierta_otro, muros_otro, eva_tipo_amenaza_otro, eva_morfologia_otro, eva_medidas_otro
+   8  perfil del evaluador recordado
+      entidad, entidad_otra, evaluador_nombre, evaluador_tipo_doc, evaluador_num_doc, evaluador_profesion, evaluador_profesion_otra, evaluador_matricula
+   8  detalle que abre un sí/no, dentro del mismo control
+      construccion, construccion_nueva, propietario, propietario_celular, propietario_documento, eva_previa_tipo, eva_previa_entidad, esc_foto_sitio_limpio
+   7  encabezado decorativo que la app ya rotula
+      nota_construccion, nota_t1, nota_t2, nota_t3, nota_t4, nota_t5, nota_fotos
+   1  lo pone el dispositivo, no se pregunta
+      fecha_hora_inspeccion
+   1  area de huella: cuatro caminos, uno solo
+      dem_area_huella
+   1  duplicado exacto de otra pregunta
+      esc_personas_desaparecidas_t
+   1  lo resuelve el propio flujo de la app
+      confirmacion
+  --- 66 campos retirados de la vista
+
+preguntas visibles ahora : 148
+pasos                    : 30
+controles con subcampos  : 32
+subcampos fundidos       : 37
+
+=== CONTROLES ===
+  segmentado    44
+  numero        19
+  escala        19
+  contador      12
+  parrafo       12
+  texto         10
+  tarjetas      10
+  camara         9
+  chips          6
+  lista          4
+  codigo         1
+  gps            1
+  fecha          1
+
+=== CORRECCIONES AL FORMULARIO ORIGINAL ===
+  rep_piso
+  rep_res_col_a
+  rep_res_col_l
+
+=== REFERENCIAS ROTAS ===
+  ninguna
