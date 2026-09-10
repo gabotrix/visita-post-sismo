@@ -37,6 +37,24 @@ barrio. Al tocar una fila se abre la visita completa.
 formulario, y las fotografías. Las fotos salen con URL firmada de diez minutos: el bucket
 es privado y no hay forma de llegar a ellas sin pasar por aquí.
 
+**Corregir** — dentro de una visita. Solo nueve campos: código, dirección, barrio,
+municipio, habitabilidad, nivel de daño, estado de colapso, pisos y volumen. El resto de
+lo que respondió el evaluador en campo no se toca desde aquí.
+
+Cada cambio **exige un motivo** y queda en una bitácora con el valor anterior, el nuevo,
+quién lo hizo y cuándo. La bitácora se muestra en la propia visita y no se borra nunca:
+cambiar una habitabilidad decide si una familia vuelve a su casa, y eso tiene que poder
+justificarse después. La columna y el JSON completo se actualizan a la vez, así que el
+CSV y el detalle nunca se contradicen.
+
+**Borrar visita** — también pide motivo. Se lleva las fotografías de Storage en la misma
+operación, primero los archivos y luego la fila: al revés, un fallo dejaría archivos sin
+dueño imposibles de rastrear.
+
+**Purgar fotos huérfanas** — abajo del todo. Busca archivos en Storage que ya no reclama
+ninguna visita y los borra. Aparecen si algo se borró por fuera del panel o si una subida
+falló a medias.
+
 **Descargar CSV** — respeta los filtros activos. Sale con separador `;` y BOM, así que
 Excel en español lo abre en columnas y con los acentos bien, sin asistente de importación.
 
@@ -73,8 +91,8 @@ Ver quién la ha usado: `select nombre, rol, activa, ultimo_uso from public.clav
 
 ## Lo que no tiene
 
-- **No hay edición.** El panel solo lee. Corregir una visita mal diligenciada hay que
-  hacerlo por SQL.
+- **La corrección es limitada a nueve campos.** Cambiar una respuesta del cuerpo del
+  formulario sigue siendo cosa de SQL.
 - **El mapa no agrupa.** Con unos cientos de puntos va bien; con miles habría que meter
   agrupamiento por cercanía.
 - **No hay informe en PDF.** El CSV es la salida; el acta formal habría que armarla aparte.

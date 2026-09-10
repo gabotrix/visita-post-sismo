@@ -88,10 +88,18 @@ Las fotos son privadas: se sacan con URL firmada. El panel (`panel.html`, ver [P
 select ruta from public.visita_fotos where visita_id = '<uuid>';
 ```
 
+**`visita_correcciones`** — bitácora de los cambios hechos desde el panel: campo, valor
+anterior, valor nuevo, motivo, con qué clave y cuándo. No se borra nunca.
+
+## Nada de esto se alcanza con la clave pública
+
+Las tablas tienen RLS activo sin políticas **y además** se les retiró el permiso a `anon`
+y `authenticated`, así que PostgREST devuelve `42501` antes siquiera de mirar el RLS. Lo
+mismo con las vistas `visitas_listado` y `fotos_huerfanas`, ambas con `security_invoker`.
+La única puerta son las dos edge functions.
+
 ## Lo que falta
 
-- **Purga de fotos huérfanas.** Al borrar una visita, `visita_fotos` cae en cascada pero el
-  archivo se queda en Storage. Hace falta un trigger o un cron.
-- **Limpieza pendiente:** quedaron 6 archivos de las pruebas en `fotos-visitas`, en las
-  carpetas `v-prueba-e2e-001` y `v-app-1789001124417`. Storage no deja borrarlos por SQL;
-  se quitan en dos clics desde *Storage → fotos-visitas* en el panel.
+- **La purga no es automática.** Borrar desde el panel sí se lleva las fotos, y hay una
+  acción para barrer huérfanas, pero nadie la ejecuta sola: convendría un `pg_cron`
+  semanal que llame a la función.

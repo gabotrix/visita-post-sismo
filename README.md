@@ -2,10 +2,12 @@
 
 Levantamiento de daños en edificaciones tras un sismo. Dos piezas sobre un mismo backend.
 
+**En línea:** <https://gabotrix.github.io/visita-post-sismo/>
+
 | | |
 |---|---|
-| **[visita.html](visita.html)** | La app de campo. 148 preguntas adaptativas, funciona **sin conexión**, guarda visitas y fotos en el teléfono y las envía cuando hay red. Instalable en la pantalla de inicio. |
-| **[panel.html](panel.html)** | El panel de la alcaldía. Mapa, cifras por municipio, buscador, corrección con bitácora y descarga en Excel. |
+| **[visita.html](https://gabotrix.github.io/visita-post-sismo/visita.html)** | La app de campo. 148 preguntas adaptativas, funciona **sin conexión**, guarda visitas y fotos en el teléfono y las envía cuando hay red. Instalable en la pantalla de inicio. |
+| **[panel.html](https://gabotrix.github.io/visita-post-sismo/panel.html)** | El panel de la alcaldía. Mapa, cifras por municipio, buscador, corrección con bitácora y descarga en Excel. |
 
 Nace del formulario de ArcGIS Survey123 «Encuesta integral post-sismo Colombia»
 (item `ad5ce3ac27d847a1be59668d55e2ae2c`). No es un port: de las 200 preguntas del
