@@ -390,6 +390,8 @@
   function chrome(on) {
     document.getElementById('top').hidden = !on;
     document.getElementById('bot').hidden = !on;
+    var m = document.getElementById('marca'); if (m) m.hidden = on;
+    var pie = document.getElementById('pie'); if (pie) pie.hidden = on;
   }
   function fechaCorta(ts) {
     return new Date(ts).toLocaleString('es-CO', { day: '2-digit', month: 'short',
