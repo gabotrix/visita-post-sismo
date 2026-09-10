@@ -268,8 +268,10 @@
         h += '<div class="grupo"><h3>Fotografías (' + r.fotos.length + ')</h3><div class="fotos">' +
           r.fotos.map(function (f) {
             var et = (DIC.campos[f.campo] || {}).l || f.campo;
-            return '<figure><img loading="lazy" src="' + esc(f.url) + '" alt="' + esc(et) +
-                   '"><figcaption>' + esc(et) + '</figcaption></figure>';
+            // sin loading="lazy": dentro del panel lateral, que tiene su propio
+            // scroll, el navegador no llega a dispararlo y la foto se queda en blanco
+            return '<figure><img src="' + esc(f.url) + '" alt="' + esc(et) + '">' +
+                   '<figcaption>' + esc(et) + '</figcaption></figure>';
           }).join('') + '</div></div>';
       }
 
@@ -296,6 +298,15 @@
            '</div><div id="zona"></div>';
       d.innerHTML = h;
       $('#cerrarDet').addEventListener('click', cierra);
+      // si una URL firmada caduca o falla, se dice; un hueco en blanco no explica nada
+      [].forEach.call(d.querySelectorAll('.fotos img'), function (im) {
+        im.addEventListener('error', function () {
+          var x = document.createElement('div');
+          x.className = 'fallo';
+          x.textContent = 'No se pudo cargar. Vuelva a abrir la visita.';
+          im.replaceWith(x);
+        });
+      });
       cargaBitacora(v.id);
     }).catch(function () {
       d.innerHTML = '<button class="cerrar" type="button" id="cerrarDet">&times;</button>' +

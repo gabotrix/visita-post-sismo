@@ -128,6 +128,9 @@ td.ancho{white-space:normal;min-width:180px}
 .fotos figure{margin:0}
 .fotos img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;
   border:1px solid var(--rule);display:block;background:var(--gris-bg)}
+.fotos .fallo{width:100%;aspect-ratio:4/3;border-radius:8px;border:1px dashed var(--rule);
+  display:grid;place-items:center;font-size:12px;color:var(--ink-3);text-align:center;
+  padding:8px}
 .fotos figcaption{font-size:11px;color:var(--ink-3);margin-top:4px;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cargando{color:var(--ink-3);font-size:14px;padding:20px 0}
@@ -510,8 +513,10 @@ footer .txt{flex:1;min-width:240px}
         h += '<div class="grupo"><h3>Fotografías (' + r.fotos.length + ')</h3><div class="fotos">' +
           r.fotos.map(function (f) {
             var et = (DIC.campos[f.campo] || {}).l || f.campo;
-            return '<figure><img loading="lazy" src="' + esc(f.url) + '" alt="' + esc(et) +
-                   '"><figcaption>' + esc(et) + '</figcaption></figure>';
+            // sin loading="lazy": dentro del panel lateral, que tiene su propio
+            // scroll, el navegador no llega a dispararlo y la foto se queda en blanco
+            return '<figure><img src="' + esc(f.url) + '" alt="' + esc(et) + '">' +
+                   '<figcaption>' + esc(et) + '</figcaption></figure>';
           }).join('') + '</div></div>';
       }
 
@@ -538,6 +543,15 @@ footer .txt{flex:1;min-width:240px}
            '</div><div id="zona"></div>';
       d.innerHTML = h;
       $('#cerrarDet').addEventListener('click', cierra);
+      // si una URL firmada caduca o falla, se dice; un hueco en blanco no explica nada
+      [].forEach.call(d.querySelectorAll('.fotos img'), function (im) {
+        im.addEventListener('error', function () {
+          var x = document.createElement('div');
+          x.className = 'fallo';
+          x.textContent = 'No se pudo cargar. Vuelva a abrir la visita.';
+          im.replaceWith(x);
+        });
+      });
       cargaBitacora(v.id);
     }).catch(function () {
       d.innerHTML = '<button class="cerrar" type="button" id="cerrarDet">&times;</button>' +
