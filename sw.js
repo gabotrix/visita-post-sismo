@@ -6,7 +6,7 @@
    Se sirve junto a visita.html desde un servidor propio (https o localhost).
    Al publicar una versión nueva, subir CACHE para que se reemplace la vieja. */
 
-var CACHE = 'psismo-v1';
+var CACHE = 'psismo-v2';
 var ARCHIVOS = ['./', './visita.html', './manifest.webmanifest'];
 
 self.addEventListener('install', function (e) {

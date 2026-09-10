@@ -903,4 +903,29 @@
     ALMACEN.persiste();          // pedir que el navegador no borre los datos por falta de espacio
     pintaBandeja();
   });
+  // ---------------------------------------------------------------- prellenado desde la sala de datos
+  // visita.html?predio=<NPN 30 dígitos>&dir=...&barrio=...&nombre=...&zona=U|R&lat=..&lon=..
+  // Crea una visita nueva con el predio ya identificado (código, dirección, barrio, municipio) y abre el formulario.
+  // La ubicación GPS la toma el evaluador en sitio; la coordenada del predio queda como referencia.
+  (function () {
+    var q; try { q = new URLSearchParams(location.search); } catch (e) { return; }
+    var npn = (q.get('predio') || '').replace(/\D/g, '');
+    if (!npn) return;
+    ALMACEN.listo.then(function () {
+      return nuevaVisita().then(function () {
+        D.unit_Code = npn; D.departamento = '17'; D.municipio = '17001';
+        if (q.get('dir')) D.direccion = q.get('dir');
+        if (q.get('barrio')) D.barrio_vereda = q.get('barrio');
+        if (q.get('nombre')) D.nombre_edificacion = q.get('nombre');
+        if (q.get('zona')) D.zona = q.get('zona') === 'R' ? 'rural' : 'urbano';
+        var lat = parseFloat(q.get('lat')), lon = parseFloat(q.get('lon'));
+        if (isFinite(lat) && isFinite(lon)) D.predio_lat = lat, D.predio_lon = lon;
+        D.origen_prellenado = 'sala_datos';
+        recalcula(); guardaVisita(true);
+        try { history.replaceState(null, '', location.pathname); } catch (e) {}
+        vista = 'paso'; pintaPaso();
+      });
+    });
+  })();
+
 })();
