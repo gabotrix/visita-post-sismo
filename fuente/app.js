@@ -905,8 +905,12 @@
     ALMACEN.persiste();          // pedir que el navegador no borre los datos por falta de espacio
     pintaBandeja();
   });
+  function enLista(lista, v) {
+    var L = E && E.listas && E.listas[lista]; if (!v || !L) return false;
+    return L.some(function (o) { return o.v === v; });
+  }
   // ---------------------------------------------------------------- prellenado desde la sala de datos
-  // visita.html?predio=<NPN 30 dígitos>&dir=...&barrio=...&nombre=...&zona=U|R&lat=..&lon=..
+  // visita.html?predio=<NPN 30 dígitos>&dir&barrio&nombre&zona=U|R&lat&lon&manzana&pisos&sotanos&uso&ano&tipo&eva&evaf
   // Crea una visita nueva con el predio ya identificado (código, dirección, barrio, municipio) y abre el formulario.
   // La ubicación GPS la toma el evaluador en sitio; la coordenada del predio queda como referencia.
   (function () {
@@ -922,6 +926,18 @@
         if (q.get('zona')) D.zona = q.get('zona') === 'R' ? 'rural' : 'urbano';
         var lat = parseFloat(q.get('lat')), lon = parseFloat(q.get('lon'));
         if (isFinite(lat) && isFinite(lon)) D.predio_lat = lat, D.predio_lon = lon;
+        // Datos conocidos del predio (catastro y visitas anteriores). El evaluador los confirma o corrige en sitio.
+        if (q.get('manzana')) D.manzana = q.get('manzana');
+        var pisos = parseInt(q.get('pisos'), 10), sot = parseInt(q.get('sotanos'), 10);
+        if (isFinite(pisos) && pisos >= 0 && pisos <= 200) D.num_pisos = pisos;
+        if (isFinite(sot) && sot >= 0 && sot <= 20) D.num_sotanos = sot;
+        if (enLista('uso', q.get('uso'))) D.uso = q.get('uso');
+        if (enLista('ano_construccion', q.get('ano'))) D.ano_construccion = q.get('ano');
+        if (enLista('tipo_edificacion', q.get('tipo'))) D.tipo_edificacion = q.get('tipo');
+        if (enLista('habitabilidad', q.get('eva'))) {
+          D.eva_previa = 'si'; D.eva_previa_clasif = q.get('eva');
+          if (/^\d{4}-\d{2}-\d{2}$/.test(q.get('evaf') || '')) D.eva_previa_fecha = q.get('evaf');
+        }
         D.origen_prellenado = 'sala_datos';
         recalcula(); guardaVisita(true);
         try { history.replaceState(null, '', location.pathname); } catch (e) {}
